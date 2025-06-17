@@ -1,0 +1,21 @@
+spring:
+  config:
+    import: application-secret.yml
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/memory_db
+    username: memory_user
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
