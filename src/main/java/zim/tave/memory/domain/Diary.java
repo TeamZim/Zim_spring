@@ -17,28 +17,33 @@ public class Diary {
     @Column(name = "diaryId")
     private Long id;
 
-//    @ManyToOne
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "userId")
 //    private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripId")
     private Trip trip;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "weatherId")
     private Weather weather;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "themeId")
     private TripTheme tripTheme;
 
-//    @ManyToOne
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "countryId")
 //    private Country country;
 
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiaryImage> diaryImages = new ArrayList<>();
+
+    public void addDiaryImage(DiaryImage image) {
+        diaryImages.add(image);
+        image.setDiary(this);
+    }
 
     @Lob
     private String content;

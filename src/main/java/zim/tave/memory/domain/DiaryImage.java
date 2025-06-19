@@ -13,7 +13,7 @@ public class DiaryImage {
     @Column(name = "DiaryImageId")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diaryId")
     private Diary diary;
 
