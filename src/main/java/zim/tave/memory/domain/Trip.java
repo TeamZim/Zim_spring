@@ -16,6 +16,8 @@ public class Trip {
     @Column(name = "tripId")
     private Long id;
 
+    private String name;
+
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -28,6 +30,9 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripThemeId")
     private TripTheme tripTheme;
+
+    @Lob
+    private String content;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Diary> diaries = new ArrayList<>();

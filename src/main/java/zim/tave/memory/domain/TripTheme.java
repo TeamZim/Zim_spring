@@ -17,10 +17,10 @@ public class TripTheme {
     private String themeName;
 
     @OneToMany(mappedBy = "tripTheme", cascade = CascadeType.ALL)
-    private List<Diary> diaries = new ArrayList<>();
+    private List<Trip> trips = new ArrayList<>();
 
-    public void addDiary(Diary diary) {
-        diaries.add(diary);
-        diary.setTripTheme(this);
+    public void addTrip(Trip trip) {
+        trips.add(trip);
+        trip.setTripTheme(this);
     }
 }
