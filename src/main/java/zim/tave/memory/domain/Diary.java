@@ -33,6 +33,11 @@ public class Diary {
     @JoinColumn(name = "themeId")
     private TripTheme tripTheme;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "emotionId")
+    private Emotion emotion;
+
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "countryId")
 //    private Country country;
