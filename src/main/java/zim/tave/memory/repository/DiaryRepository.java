@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import zim.tave.memory.domain.Diary;
 import zim.tave.memory.domain.Trip;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 @Repository
@@ -15,7 +16,11 @@ public class DiaryRepository {
     private final EntityManager em;
 
     public void save(Diary diary) {
-        em.persist(diary);
+        if (diary.getId() == null) {
+            em.persist(diary);
+        } else {
+            em.merge(diary);
+        }
     }
 
     public Diary findById(Long id) {
@@ -25,5 +30,4 @@ public class DiaryRepository {
     public List<Diary> findAll() {
         return em.createQuery("select d from Diary d", Diary.class).getResultList();
     }
-
 }

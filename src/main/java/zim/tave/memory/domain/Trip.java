@@ -16,7 +16,7 @@ public class Trip {
     @Column(name = "tripId")
     private Long id;
 
-    private String name;
+    private String tripName;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -41,4 +41,15 @@ public class Trip {
         diaries.add(diary);
         diary.setTrip(this);
     }
+
+//    //==생성 메서드==//
+//    public static Trip createTrip(Member member, String tripName, LocalDate startDate, String content, TripTheme tripTheme) {
+//        Trip trip = new Trip();
+//        trip.setMember(member);
+//        trip.setTripName(tripName);
+//        trip.setStartDate(startDate);
+//        trip.setContent(content);
+//        trip.setTripTheme(tripTheme);
+//        return trip;
+//    }
 }

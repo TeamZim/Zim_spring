@@ -60,4 +60,18 @@ public class Diary {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
+//
+//    //==생성 메서드==//
+//    public static Diary createDiary(Member member, Country country, String content, String city, DiaryImage... diaryImages) {
+//        Diary diary = new Diary();
+//        diary.setMember(member);
+//        diary.setCountry(country);
+//        diary.setCreatedAt(LocalDateTime.now());
+//        diary.setContent(content);
+//        diary.setCity(city);
+//        for (DiaryImage diaryImage : diaryImages) {
+//            diary.addDiaryImage(diaryImage);
+//        }
+//        return diary;
+//    }
 }

@@ -22,9 +22,9 @@ public class TripService {
     }
 
     @Transactional
-    public void updateTrip(Long tripId, String name, String content, LocalDate startDate, LocalDate endDate) {
+    public void updateTrip(Long tripId, String tripName, String content, LocalDate startDate, LocalDate endDate) {
         Trip findTrip = tripRepository.findOne(tripId);
-        findTrip.setName(name);
+        findTrip.setTripName(tripName);
         findTrip.setContent(content);
         findTrip.setStartDate(startDate);
         findTrip.setEndDate(endDate);
@@ -37,5 +37,4 @@ public class TripService {
     public Trip findOne(Long tripId) {
         return tripRepository.findOne(tripId);
     }
-
 }

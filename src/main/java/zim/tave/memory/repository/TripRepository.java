@@ -14,7 +14,11 @@ public class TripRepository {
     private final EntityManager em;
 
     public void save(Trip trip) {
-        em.persist(trip);
+        if (trip.getId() == null) {
+            em.persist(trip);
+        } else {
+            em.merge(trip);
+        }
     }
 
     public Trip findOne(Long id) {
