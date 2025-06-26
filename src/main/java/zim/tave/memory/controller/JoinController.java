@@ -11,7 +11,7 @@ import zim.tave.memory.service.JoinService;
 @RestController
 @RequestMapping("/api/join")
 @RequiredArgsConstructor
-public class JoinContorller {
+public class JoinController {
     private final JoinService joinService;
 
     @PostMapping
@@ -39,3 +39,4 @@ public class JoinContorller {
         return ResponseEntity.ok(response);
     }
 }
+
