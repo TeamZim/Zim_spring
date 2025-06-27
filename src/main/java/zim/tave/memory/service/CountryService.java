@@ -31,9 +31,9 @@ public class CountryService {
 
     @Transactional
     public void init() {
-        System.out.println(">> CountryService.init() 실행됨");
+        //System.out.println(">> CountryService.init() 실행됨");
         if (!countryRepository.findAll().isEmpty()) {
-            System.out.println(">> 이미 데이터 있음, return");
+            //System.out.println(">> 이미 데이터 있음, return");
             return;
         }
 
@@ -302,6 +302,6 @@ public class CountryService {
         countries.forEach(countryRepository::save);
         countryRepository.flush(); // 강제 DB 반영
         List<Country> check = countryRepository.findAll();
-        System.out.println(">> 실제 저장된 수: " + check.size());
+        //System.out.println(">> 실제 저장된 수: " + check.size());
     }
 }
