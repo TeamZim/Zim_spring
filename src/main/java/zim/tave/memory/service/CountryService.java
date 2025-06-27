@@ -1,8 +1,8 @@
 package zim.tave.memory.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.repository.CountryRepository;
 
@@ -29,8 +29,14 @@ public class CountryService {
         countryRepository.save(country);
     }
 
+    @Transactional
     public void init() {
-        if (!countryRepository.findAll().isEmpty()) return;
+        System.out.println(">> CountryService.init() 실행됨");
+        if (!countryRepository.findAll().isEmpty()) {
+            System.out.println(">> 이미 데이터 있음, return");
+            return;
+        }
+
 
         List<Country> countries = List.of(
                 new Country("KR", "대한민국", "🇰🇷"),
@@ -293,5 +299,9 @@ public class CountryService {
 //                new Country("ZM", "Zambia", "🇿🇲"),
 //                new Country("ZW", "Zimbabwe", "🇿🇼")
         );
+        countries.forEach(countryRepository::save);
+        countryRepository.flush(); // 강제 DB 반영
+        List<Country> check = countryRepository.findAll();
+        System.out.println(">> 실제 저장된 수: " + check.size());
     }
 }
