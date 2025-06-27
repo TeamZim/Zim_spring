@@ -12,7 +12,7 @@ public class SettingController {
 
     private final SettingService settingService;
 
-    @PostMapping("/{userId}/logout")
+    @PatchMapping("/{userId}/logout")
     public ResponseEntity logout(@PathVariable Long userId) {
         settingService.logout(userId);
         return ResponseEntity.ok("로그아웃 완료");

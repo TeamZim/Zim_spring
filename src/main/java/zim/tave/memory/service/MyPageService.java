@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import zim.tave.memory.domain.User;
 import zim.tave.memory.dto.MyPageResponseDto;
-//import zim.tave.memory.repository.DiaryRepository;
+import zim.tave.memory.repository.DiaryRepository;
 import zim.tave.memory.repository.UserRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class MyPageService {
 
     private final UserRepository userRepository;
-    //private final DiaryRepository diaryRepository;
+    private final DiaryRepository diaryRepository;
     //private final VisitedCountryRespository visitedCountryRespository;
 
     public MyPageResponseDto getMyPage(Long userId) {
@@ -33,8 +33,9 @@ public class MyPageService {
                 user.getBirth(),
                 user.getNationality()
         );
-        /*
 
+
+        /*
         //Statistics
         int diaryCount = diaryRepository.countByUserId(userId);
         int countryCount = visitedCountryRepository.countByUserId(userId);
