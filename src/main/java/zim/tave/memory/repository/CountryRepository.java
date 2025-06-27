@@ -30,4 +30,8 @@ public class CountryRepository {
                 .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
     }
+
+    public void delete(Country country) {
+        em.remove(em.contains(country) ? country : em.merge(country));
+    }
 }
