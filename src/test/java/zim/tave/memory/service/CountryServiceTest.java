@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.repository.CountryRepository;
@@ -28,10 +29,11 @@ public class CountryServiceTest {
     }
 
     @Test
+    @Transactional
+    @Rollback(false)
     void init_빈_DB에_정상작동_확인() {
         // when
         countryService.init();
-
         // then
         List<Country> result = countryRepository.findAll();
         assertThat(result).isNotEmpty();
