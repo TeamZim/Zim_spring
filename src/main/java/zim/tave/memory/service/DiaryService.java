@@ -11,7 +11,7 @@ import zim.tave.memory.repository.TripRepository;
 @RequiredArgsConstructor
 public class DiaryService {
 
-    //    private final MemberRepository memberRepository;
+//    private final MemberRepository memberRepository;
     private final DiaryRepository diaryRepository;
     private final TripRepository tripRepository;
 }
