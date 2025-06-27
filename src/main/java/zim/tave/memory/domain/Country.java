@@ -18,4 +18,11 @@ public class Country {
     private String countryName;
 
     private String emoji;
+
+    public Country(String countryCode, String countryName, String emoji) {
+        this.countryCode = countryCode;
+        this.countryName = countryName;
+        this.emoji = emoji;
+    }
+
 }
