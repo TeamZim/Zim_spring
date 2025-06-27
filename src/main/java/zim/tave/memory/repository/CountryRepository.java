@@ -15,6 +15,7 @@ public class CountryRepository {
 
     public void save(Country country) {
         em.persist(country);
+        em.flush();
     }
 
     public Country findByCode(String countryCode) {
@@ -30,4 +31,13 @@ public class CountryRepository {
                 .setParameter("keyword", "%" + keyword + "%")
                 .getResultList();
     }
+
+    public void delete(Country country) {
+        em.remove(em.contains(country) ? country : em.merge(country));
+    }
+
+    public void flush() {
+        em.flush();
+    }
+
 }
