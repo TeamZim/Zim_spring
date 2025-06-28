@@ -6,6 +6,7 @@ import zim.tave.memory.domain.User;
 import zim.tave.memory.dto.MyPageResponseDto;
 import zim.tave.memory.repository.DiaryRepository;
 import zim.tave.memory.repository.UserRepository;
+import zim.tave.memory.repository.VisitedCountryRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ public class MyPageService {
 
     private final UserRepository userRepository;
     private final DiaryRepository diaryRepository;
-    //private final VisitedCountryRespository visitedCountryRespository;
+    private final VisitedCountryRepository visitedCountryRepository;
 
     public MyPageResponseDto getMyPage(Long userId) {
         //유저 조회
@@ -35,7 +36,6 @@ public class MyPageService {
         );
 
 
-        /*
         //Statistics
         int diaryCount = diaryRepository.countByUserId(userId);
         int countryCount = visitedCountryRepository.countByUserId(userId);
@@ -48,8 +48,6 @@ public class MyPageService {
                 .collect(Collectors.joining());
 
         return new MyPageResponseDto(userInfo, statistics, flags);
-        */
-        return null;
     }
     private String countryCodeToEmoji(String countryCode) {
         // ISO Alpha-2 코드 기반 이모지 변환
