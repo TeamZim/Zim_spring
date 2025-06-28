@@ -25,36 +25,34 @@ public class Diary {
     @JoinColumn(name = "tripId")
     private Trip trip;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "weatherId")
-    private Weather weather;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "themeId")
-    private TripTheme tripTheme;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "emotionId")
-    private Emotion emotion;
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "countryId")
     private Country country;
 
-    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DiaryImage> diaryImages = new ArrayList<>();
+    @Column(nullable = false)
+    private String city;
 
-    public void addDiaryImage(DiaryImage image) {
-        diaryImages.add(image);
-        image.setDiary(this);
-    }
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
 
     @Lob
+    @Column(nullable = false)
     private String content;
 
+    private String detailedLocation;
+
     private String audioUrl;
-    private String city;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "emotionId")
+    private Emotion emotion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "weatherId")
+    private Weather weather;
+
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaryImage> diaryImages = new ArrayList<>();
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -64,18 +62,29 @@ public class Diary {
         this.createdAt = LocalDateTime.now();
     }
 
-    //==생성 메서드==//
-    public static Diary createDiary(User user, Country country, String content, String city, Emotion emotion, DiaryImage... diaryImages) {
+    public void addDiaryImage(DiaryImage image) {
+        diaryImages.add(image);
+        image.setDiary(this);
+    }
+
+    public static Diary createDiary(User user, Trip trip, Country country, String city, 
+                                   LocalDateTime dateTime, String content) {
         Diary diary = new Diary();
         diary.setUser(user);
+        diary.setTrip(trip);
         diary.setCountry(country);
-        diary.setCreatedAt(LocalDateTime.now());
-        diary.setContent(content);
-        diary.setEmotion(emotion);
         diary.setCity(city);
-        for (DiaryImage diaryImage : diaryImages) {
-            diary.addDiaryImage(diaryImage);
-        }
+        diary.setDateTime(dateTime);
+        diary.setContent(content);
+        diary.setCreatedAt(LocalDateTime.now());
         return diary;
+    }
+
+    public void setOptionalFields(String detailedLocation, String audioUrl, 
+                                 Emotion emotion, Weather weather) {
+        this.detailedLocation = detailedLocation;
+        this.audioUrl = audioUrl;
+        this.emotion = emotion;
+        this.weather = weather;
     }
 }
