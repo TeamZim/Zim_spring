@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zim.tave.memory.domain.Trip;
 import zim.tave.memory.dto.CreateTripRequest;
+import zim.tave.memory.dto.TripResponseDto;
 import zim.tave.memory.dto.UpdateTripRequest;
 import zim.tave.memory.service.TripService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/trips")
@@ -18,7 +20,7 @@ public class TripController {
     private final TripService tripService;
 
     @PostMapping
-    public ResponseEntity<Trip> createTrip(@RequestBody CreateTripRequest request) {
+    public ResponseEntity<TripResponseDto> createTrip(@RequestBody CreateTripRequest request) {
         // DTO 검증
         if (request.getTripName() == null || request.getTripName().trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -37,7 +39,7 @@ public class TripController {
         }
         
         Trip trip = tripService.createTrip(request);
-        return ResponseEntity.ok(trip);
+        return ResponseEntity.ok(TripResponseDto.from(trip));
     }
 
     @PutMapping("/{tripId}")
@@ -57,21 +59,27 @@ public class TripController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Trip>> getAllTrips() {
+    public ResponseEntity<List<TripResponseDto>> getAllTrips() {
         List<Trip> trips = tripService.findAll();
-        return ResponseEntity.ok(trips);
+        List<TripResponseDto> tripDtos = trips.stream()
+                .map(TripResponseDto::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(tripDtos);
     }
 
     @GetMapping("/{tripId}")
-    public ResponseEntity<Trip> getTrip(@PathVariable Long tripId) {
+    public ResponseEntity<TripResponseDto> getTrip(@PathVariable Long tripId) {
         Trip trip = tripService.findOne(tripId);
-        return ResponseEntity.ok(trip);
+        return ResponseEntity.ok(TripResponseDto.from(trip));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Trip>> getTripsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<TripResponseDto>> getTripsByUserId(@PathVariable Long userId) {
         List<Trip> trips = tripService.findByUserId(userId);
-        return ResponseEntity.ok(trips);
+        List<TripResponseDto> tripDtos = trips.stream()
+                .map(TripResponseDto::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(tripDtos);
     }
 
     @DeleteMapping("/{tripId}")

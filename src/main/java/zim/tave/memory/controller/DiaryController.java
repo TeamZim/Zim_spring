@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import zim.tave.memory.domain.Diary;
 import zim.tave.memory.domain.DiaryImage;
 import zim.tave.memory.dto.CreateDiaryRequest;
+import zim.tave.memory.dto.DiaryResponseDto;
 import zim.tave.memory.dto.UpdateDiaryOptionalFieldsRequest;
 import zim.tave.memory.dto.UpdateRepresentativeImageRequest;
 import zim.tave.memory.service.DiaryService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/diaries")
@@ -20,7 +22,7 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping
-    public ResponseEntity<Diary> createDiary(@RequestBody CreateDiaryRequest request) {
+    public ResponseEntity<DiaryResponseDto> createDiary(@RequestBody CreateDiaryRequest request) {
         // DTO 검증
         if (request.getCity() == null || request.getCity().trim().isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -63,7 +65,7 @@ public class DiaryController {
         }
         
         Diary diary = diaryService.createDiary(request);
-        return ResponseEntity.ok(diary);
+        return ResponseEntity.ok(DiaryResponseDto.from(diary));
     }
 
     @PutMapping("/{diaryId}/optional-fields")
@@ -85,27 +87,36 @@ public class DiaryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Diary>> getAllDiaries() {
+    public ResponseEntity<List<DiaryResponseDto>> getAllDiaries() {
         List<Diary> diaries = diaryService.findAll();
-        return ResponseEntity.ok(diaries);
+        List<DiaryResponseDto> diaryDtos = diaries.stream()
+                .map(DiaryResponseDto::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(diaryDtos);
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<Diary> getDiary(@PathVariable Long diaryId) {
+    public ResponseEntity<DiaryResponseDto> getDiary(@PathVariable Long diaryId) {
         Diary diary = diaryService.findOne(diaryId);
-        return ResponseEntity.ok(diary);
+        return ResponseEntity.ok(DiaryResponseDto.from(diary));
     }
 
     @GetMapping("/trip/{tripId}")
-    public ResponseEntity<List<Diary>> getDiariesByTripId(@PathVariable Long tripId) {
+    public ResponseEntity<List<DiaryResponseDto>> getDiariesByTripId(@PathVariable Long tripId) {
         List<Diary> diaries = diaryService.findByTripId(tripId);
-        return ResponseEntity.ok(diaries);
+        List<DiaryResponseDto> diaryDtos = diaries.stream()
+                .map(DiaryResponseDto::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(diaryDtos);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Diary>> getDiariesByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<DiaryResponseDto>> getDiariesByUserId(@PathVariable Long userId) {
         List<Diary> diaries = diaryService.findByUserId(userId);
-        return ResponseEntity.ok(diaries);
+        List<DiaryResponseDto> diaryDtos = diaries.stream()
+                .map(DiaryResponseDto::from)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(diaryDtos);
     }
 
     @DeleteMapping("/{diaryId}")
