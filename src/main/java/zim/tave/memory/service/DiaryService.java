@@ -41,6 +41,13 @@ public class DiaryService {
             throw new IllegalArgumentException("국가 코드를 찾을 수 없습니다: " + request.getCountryCode());
         }
         
+        // 감정은 필수 필드
+        if (request.getEmotionId() == null) {
+            throw new IllegalArgumentException("감정은 필수 입력 항목입니다.");
+        }
+        Emotion emotion = emotionRepository.findById(request.getEmotionId())
+                .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다."));
+        
         Diary diary = Diary.createDiary(user, trip, country, request.getCity(), 
                                        request.getDateTime(), request.getContent());
         diaryRepository.save(diary);
@@ -59,36 +66,26 @@ public class DiaryService {
             }
         }
         
-        // 선택적 필드 설정
-        if (request.getDetailedLocation() != null || request.getAudioUrl() != null || 
-            request.getEmotionId() != null || request.getWeatherId() != null) {
-            
-            Emotion emotion = null;
-            if (request.getEmotionId() != null) {
-                emotion = emotionRepository.findById(request.getEmotionId())
-                        .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다."));
-            }
-            
-            Weather weather = null;
-            if (request.getWeatherId() != null) {
-                weather = weatherRepository.findById(request.getWeatherId())
-                        .orElseThrow(() -> new IllegalArgumentException("날씨를 찾을 수 없습니다."));
-            }
-            
-            diary.setOptionalFields(request.getDetailedLocation(), request.getAudioUrl(), 
-                                   emotion, weather);
+        // 선택적 필드 설정 (감정은 이미 위에서 처리했으므로 제외)
+        Weather weather = null;
+        if (request.getWeatherId() != null) {
+            weather = weatherRepository.findById(request.getWeatherId())
+                    .orElseThrow(() -> new IllegalArgumentException("날씨를 찾을 수 없습니다."));
         }
+        
+        diary.setOptionalFields(request.getDetailedLocation(), request.getAudioUrl(), 
+                               emotion, weather);
         
         // Trip의 종료 날짜를 다이어리 생성 날짜로 업데이트
         trip.updateEndDate(diary.getCreatedAt().toLocalDate());
         
-        // 방문한 국가를 VisitedCountry에 자동 등록
-//        try {
-//            visitedCountryService.registerVisitedCountryFromDiary(user.getId(), country.getCountryCode());
-//        } catch (Exception e) {
-//            // VisitedCountry 등록 실패 시 로그만 남기고 다이어리 생성은 계속 진행
-//            System.err.println("VisitedCountry 등록 실패: " + e.getMessage());
-//        }
+        // 방문한 국가를 VisitedCountry에 자동 등록 (감정 포함)
+        try {
+            visitedCountryService.registerVisitedCountry(user.getId(), country.getCountryCode(), emotion.getId());
+        } catch (Exception e) {
+            // VisitedCountry 등록 실패 시 로그만 남기고 다이어리 생성은 계속 진행
+            System.err.println("VisitedCountry 등록 실패: " + e.getMessage());
+        }
         
         return diary;
     }
