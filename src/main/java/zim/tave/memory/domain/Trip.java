@@ -53,7 +53,6 @@ public class Trip {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
         this.startDate = LocalDate.now();
     }
 
@@ -70,7 +69,6 @@ public class Trip {
         trip.setTripName(tripName);
         trip.setDescription(description);
         trip.setTripTheme(tripTheme);
-        trip.setCreatedAt(LocalDateTime.now());
         trip.setStartDate(LocalDate.now());
         return trip;
     }

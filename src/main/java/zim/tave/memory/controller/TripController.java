@@ -5,8 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zim.tave.memory.domain.Trip;
 import zim.tave.memory.dto.CreateTripRequest;
+import zim.tave.memory.dto.TripRepresentativeImageDto;
 import zim.tave.memory.dto.TripResponseDto;
 import zim.tave.memory.dto.UpdateTripRequest;
+import zim.tave.memory.service.DiaryService;
 import zim.tave.memory.service.TripService;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class TripController {
 
     private final TripService tripService;
+    private final DiaryService diaryService;
 
     @PostMapping
     public ResponseEntity<TripResponseDto> createTrip(@RequestBody CreateTripRequest request) {
@@ -86,5 +89,12 @@ public class TripController {
     public ResponseEntity<Void> deleteTrip(@PathVariable Long tripId) {
         tripService.deleteTrip(tripId);
         return ResponseEntity.ok().build();
+    }
+
+    // 여행별 대표사진 조회 API
+    @GetMapping("/{tripId}/representative-images")
+    public ResponseEntity<List<TripRepresentativeImageDto>> getRepresentativeImages(@PathVariable Long tripId) {
+        List<TripRepresentativeImageDto> representativeImages = diaryService.getRepresentativeImagesByTripId(tripId);
+        return ResponseEntity.ok(representativeImages);
     }
 } 
