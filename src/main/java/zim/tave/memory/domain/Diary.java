@@ -17,46 +17,42 @@ public class Diary {
     @Column(name = "diaryId")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userId")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripId")
     private Trip trip;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "weatherId")
-    private Weather weather;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "countryId")
+    private Country country;
+
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
+
+    @Lob
+    @Column(nullable = false)
+    private String content;
+
+    private String detailedLocation;
+
+    private String audioUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "themeId")
-    private TripTheme tripTheme;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "emotionId")
     private Emotion emotion;
 
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "countryId")
-//    private Country country;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "weatherId")
+    private Weather weather;
 
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiaryImage> diaryImages = new ArrayList<>();
-
-    public void addDiaryImage(DiaryImage image) {
-        diaryImages.add(image);
-        image.setDiary(this);
-    }
-
-    @Lob
-    private String content;
-
-    private String audioUrl;
-    private String city;
-
-    private LocalDate date;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -65,18 +61,30 @@ public class Diary {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-//
-//    //==생성 메서드==//
-//    public static Diary createDiary(Member member, Country country, String content, String city, DiaryImage... diaryImages) {
-//        Diary diary = new Diary();
-//        diary.setMember(member);
-//        diary.setCountry(country);
-//        diary.setCreatedAt(LocalDateTime.now());
-//        diary.setContent(content);
-//        diary.setCity(city);
-//        for (DiaryImage diaryImage : diaryImages) {
-//            diary.addDiaryImage(diaryImage);
-//        }
-//        return diary;
-//    }
+
+    public void addDiaryImage(DiaryImage image) {
+        diaryImages.add(image);
+        image.setDiary(this);
+    }
+
+    public static Diary createDiary(User user, Trip trip, Country country, String city, 
+                                   LocalDateTime dateTime, String content) {
+        Diary diary = new Diary();
+        diary.setUser(user);
+        diary.setTrip(trip);
+        diary.setCountry(country);
+        diary.setCity(city);
+        diary.setDateTime(dateTime);
+        diary.setContent(content);
+        diary.setCreatedAt(LocalDateTime.now());
+        return diary;
+    }
+
+    public void setOptionalFields(String detailedLocation, String audioUrl, 
+                                 Emotion emotion, Weather weather) {
+        this.detailedLocation = detailedLocation;
+        this.audioUrl = audioUrl;
+        this.emotion = emotion;
+        this.weather = weather;
+    }
 }

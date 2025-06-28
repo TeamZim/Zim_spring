@@ -1,5 +1,6 @@
 package zim.tave.memory.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class TripTheme {
 
     private String themeName;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "tripTheme", cascade = CascadeType.ALL)
     private List<Trip> trips = new ArrayList<>();
 
