@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.repository.CountryRepository;
+import zim.tave.memory.util.EmojiValidator;
 
 import java.util.List;
 
@@ -25,6 +26,10 @@ public class CountryService {
     }
 
     public void saveCountry(Country country) {
+        // 이모지 유효성 검증
+        if (country.getEmoji() != null && !EmojiValidator.isUtf8mb4Compatible(country.getEmoji())) {
+            throw new IllegalArgumentException("유효하지 않은 이모지입니다: " + country.getEmoji());
+        }
         countryRepository.save(country);
     }
 
