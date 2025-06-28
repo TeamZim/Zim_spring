@@ -42,6 +42,13 @@ public class DiaryRepository {
                 .getResultList();
     }
 
+    public Long countByUserId(Long userId) {
+        return em.createQuery(
+                        "select count(d) from Diary d where d.user.id = :userId", Long.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
     public void delete(Diary diary) {
         em.remove(diary);
     }
