@@ -62,4 +62,11 @@ public class VisitedCountryService {
 
         visitedCountryRepository.save(visited);
     }
+
+    //특정 사용자의 특정 방문 국가 삭제
+    public void deleteVisitedCountry(Long userId, String countryCode) {
+        VisitedCountry visitedCountry = visitedCountryRepository.findByUserIdAndCountryCode(userId, countryCode)
+                .orElseThrow(() -> new IllegalArgumentException("해당 국가 기록이 존재하지 않습니다."));
+        visitedCountryRepository.delete(visitedCountry);
+    }
 }
