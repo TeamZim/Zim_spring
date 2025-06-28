@@ -44,23 +44,32 @@ public class VisitedCountryService {
         return visitedCountryRepository.existsByUserIdAndCountryCode(userId, countryCode);
     }
 
-    //방문 국가 등록
+    //방문 국가 등록 (기존 기록이 있으면 감정과 색상 업데이트)
     public void registerVisitedCountry(Long userId, String countryCode, Long emotionId) {
-        if (alreadyVisited(userId, countryCode)) return;
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + userId));
         Country country = countryRepository.findByCode(countryCode);
         Emotion emotion = emotionRepository.findById(emotionId)
                 .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다. ID: " + emotionId));
 
-        VisitedCountry visited = new VisitedCountry();
-        visited.setUser(user);
-        visited.setCountry(country);
-        visited.setEmotion(emotion);
-        visited.setColor(emotion.getColorCode());
-
-        visitedCountryRepository.save(visited);
+        // 기존 기록이 있는지 확인
+        var existingVisitedCountry = visitedCountryRepository.findByUserIdAndCountryCode(userId, countryCode);
+        
+        if (existingVisitedCountry.isPresent()) {
+            // 기존 기록이 있으면 감정과 색상 업데이트
+            VisitedCountry visited = existingVisitedCountry.get();
+            visited.setEmotion(emotion);
+            visited.setColor(emotion.getColorCode());
+            visitedCountryRepository.save(visited);
+        } else {
+            // 새로운 기록 생성
+            VisitedCountry visited = new VisitedCountry();
+            visited.setUser(user);
+            visited.setCountry(country);
+            visited.setEmotion(emotion);
+            visited.setColor(emotion.getColorCode());
+            visitedCountryRepository.save(visited);
+        }
     }
 
     //특정 사용자의 특정 방문 국가 삭제
