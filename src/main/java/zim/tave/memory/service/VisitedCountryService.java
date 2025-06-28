@@ -40,7 +40,8 @@ public class VisitedCountryService {
 
         //User user = userRepository.find(userId);
         Country country = countryRepository.findByCode(countryCode);
-        Emotion emotion = emotionRepository.find(emotionId);
+        Emotion emotion = emotionRepository.findById(emotionId)
+                .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다. ID: " + emotionId));
 
         VisitedCountry visited = new VisitedCountry();
         //visited.setUser(user);
