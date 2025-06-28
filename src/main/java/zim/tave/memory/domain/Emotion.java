@@ -2,8 +2,10 @@ package zim.tave.memory.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 @Entity
 @Getter @Setter
 public class Emotion {
@@ -14,4 +16,9 @@ public class Emotion {
 
     private String name;
     private String colorCode;
+
+    public Emotion(String name, String colorCode) {
+        this.name = name;
+        this.colorCode = colorCode;
+    }
 }
