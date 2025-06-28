@@ -1,8 +1,11 @@
 package zim.tave.memory.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import zim.tave.memory.domain.DiaryImage;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import zim.tave.memory.domain.DiaryImage.CameraType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +18,7 @@ public class CreateDiaryRequest {
     private Long tripId;
     private String countryCode;
     private String city;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateTime;
     private String content;
     
@@ -31,7 +35,16 @@ public class CreateDiaryRequest {
     @Setter
     public static class DiaryImageInfo {
         private String imageUrl;
-        private DiaryImage.CameraType cameraType;
-        private boolean isRepresentative;
+        private CameraType cameraType;
+        @JsonProperty("isRepresentative")
+        private boolean representative;
+
+        public DiaryImageInfo() {}
+
+        public DiaryImageInfo(String imageUrl, CameraType cameraType, boolean representative) {
+            this.imageUrl = imageUrl;
+            this.cameraType = cameraType;
+            this.representative = representative;
+        }
     }
 } 

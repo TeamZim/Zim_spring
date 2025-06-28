@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zim.tave.memory.domain.Diary;
 import zim.tave.memory.domain.DiaryImage;
+import zim.tave.memory.domain.DiaryImage.CameraType;
 import zim.tave.memory.dto.CreateDiaryRequest;
 import zim.tave.memory.dto.DiaryResponseDto;
 import zim.tave.memory.dto.UpdateDiaryOptionalFieldsRequest;
@@ -23,50 +24,62 @@ public class DiaryController {
 
     @PostMapping
     public ResponseEntity<DiaryResponseDto> createDiary(@RequestBody CreateDiaryRequest request) {
-        // DTO 검증
+        // 도시 검증
         if (request.getCity() == null || request.getCity().trim().isEmpty()) {
+            System.out.println("[400] city 누락");
             return ResponseEntity.badRequest().build();
         }
-        
+
+        // 날짜 검증
         if (request.getDateTime() == null) {
+            System.out.println("[400] dateTime 누락");
             return ResponseEntity.badRequest().build();
         }
-        
+
+        // 내용 검증
         if (request.getContent() == null || request.getContent().trim().isEmpty()) {
+            System.out.println("[400] content 누락");
             return ResponseEntity.badRequest().build();
         }
-        
-        // 이미지 검증 (전면/후면 카메라 2장)
+
+        // 이미지 2장 있는지 확인
         if (request.getImages() == null || request.getImages().size() != 2) {
+            System.out.println("[400] 이미지 개수 오류");
             return ResponseEntity.badRequest().build();
         }
-        
-        // 전면/후면 카메라 각각 1장씩 있는지 확인
+
+        // FRONT/BACK 카메라 있는지
         boolean hasFrontCamera = request.getImages().stream()
-                .anyMatch(img -> img.getCameraType() == DiaryImage.CameraType.FRONT);
+                .anyMatch(img -> img.getCameraType() == CameraType.FRONT);
         boolean hasBackCamera = request.getImages().stream()
-                .anyMatch(img -> img.getCameraType() == DiaryImage.CameraType.BACK);
-        
+                .anyMatch(img -> img.getCameraType() == CameraType.BACK);
+
         if (!hasFrontCamera || !hasBackCamera) {
+            System.out.println("[400] FRONT 또는 BACK 이미지 누락");
             return ResponseEntity.badRequest().build();
         }
-        
-        // 대표사진이 정확히 1개 선택되었는지 확인
+
+        // 대표 이미지가 정확히 1개인지
         long representativeCount = request.getImages().stream()
                 .filter(CreateDiaryRequest.DiaryImageInfo::isRepresentative)
                 .count();
-        
+
         if (representativeCount != 1) {
+            System.out.println("[400] 대표 이미지 개수 오류 (현재: " + representativeCount + ")");
             return ResponseEntity.badRequest().build();
         }
-        
+
         if (request.getCountryCode() == null || request.getCountryCode().trim().isEmpty()) {
+            System.out.println("[400] countryCode 누락");
             return ResponseEntity.badRequest().build();
         }
-        
+
+        // 정상 로직
+        System.out.println("[200] 요청 통과, 다이어리 생성 시작");
         Diary diary = diaryService.createDiary(request);
         return ResponseEntity.ok(DiaryResponseDto.from(diary));
     }
+
 
     @PutMapping("/{diaryId}/optional-fields")
     public ResponseEntity<Void> updateDiaryOptionalFields(@PathVariable Long diaryId,
