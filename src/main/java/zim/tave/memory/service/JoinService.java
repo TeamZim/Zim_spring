@@ -34,8 +34,8 @@ public class JoinService {
         user.setStatus(true);
 
         //마이페이지 Statistics 정보
-        user.setDiaryCount(0);
-        user.setVisitedCountryCount(0);
+        user.setDiaryCount(0L);
+        user.setVisitedCountryCount(0L);
         user.setFlags("");
 
         return userRepository.save(user);
