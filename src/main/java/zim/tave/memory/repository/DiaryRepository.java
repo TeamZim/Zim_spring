@@ -29,4 +29,20 @@ public class DiaryRepository {
     public List<Diary> findAll() {
         return em.createQuery("select d from Diary d", Diary.class).getResultList();
     }
+
+    public List<Diary> findByTripId(Long tripId) {
+        return em.createQuery("select d from Diary d where d.trip.id = :tripId", Diary.class)
+                .setParameter("tripId", tripId)
+                .getResultList();
+    }
+
+    public List<Diary> findByUserId(Long userId) {
+        return em.createQuery("select d from Diary d where d.user.id = :userId", Diary.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    public void delete(Diary diary) {
+        em.remove(diary);
+    }
 }
