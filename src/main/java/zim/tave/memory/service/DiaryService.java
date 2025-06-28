@@ -83,12 +83,12 @@ public class DiaryService {
         trip.updateEndDate(diary.getCreatedAt().toLocalDate());
         
         // 방문한 국가를 VisitedCountry에 자동 등록
-        try {
-            visitedCountryService.registerVisitedCountryFromDiary(user.getId(), country.getCountryCode());
-        } catch (Exception e) {
-            // VisitedCountry 등록 실패 시 로그만 남기고 다이어리 생성은 계속 진행
-            System.err.println("VisitedCountry 등록 실패: " + e.getMessage());
-        }
+//        try {
+//            visitedCountryService.registerVisitedCountryFromDiary(user.getId(), country.getCountryCode());
+//        } catch (Exception e) {
+//            // VisitedCountry 등록 실패 시 로그만 남기고 다이어리 생성은 계속 진행
+//            System.err.println("VisitedCountry 등록 실패: " + e.getMessage());
+//        }
         
         return diary;
     }
