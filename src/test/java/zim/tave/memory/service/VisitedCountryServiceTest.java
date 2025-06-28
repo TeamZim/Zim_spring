@@ -32,23 +32,26 @@ public class VisitedCountryServiceTest {
     private VisitedCountryRepository visitedCountryRepository;
 
     @Test
-    void testRegisterVisitedCountry_SuccessAndDuplicatePrevention() {
+    void testRegisterVisitedCountry_SuccessAndUpdate() {
         // given: 테스트용 데이터 생성
         User user = createTestUser("testKakao1");
         Country country = createTestCountry("KR1", "대한민국1", "🇰🇷");
-        Emotion emotion = createTestEmotion("행복1", "#FFD700");
+        Emotion emotion1 = createTestEmotion("행복1", "#FFD700");
+        Emotion emotion2 = createTestEmotion("슬픔1", "#0000FF");
         
-        // when: 등록
-        visitedCountryService.registerVisitedCountry(user.getId(), country.getCountryCode(), emotion.getId());
+        // when: 첫 번째 등록
+        visitedCountryService.registerVisitedCountry(user.getId(), country.getCountryCode(), emotion1.getId());
 
-        // 중복 방지
-        visitedCountryService.registerVisitedCountry(user.getId(), country.getCountryCode(), emotion.getId()); // 다시 시도해도 저장 X
+        // 두 번째 등록 (감정 변경)
+        visitedCountryService.registerVisitedCountry(user.getId(), country.getCountryCode(), emotion2.getId());
 
         List<VisitedCountry> visitedList = visitedCountryService.getVisitedCountries(user.getId());
 
-        // then: 한 번만 저장됨
+        // then: 하나의 기록만 존재하고, 두 번째 감정으로 업데이트됨
         assertThat(visitedList).hasSize(1);
         assertThat(visitedList.get(0).getCountry().getCountryCode()).isEqualTo("KR1");
+        assertThat(visitedList.get(0).getEmotion().getName()).isEqualTo("슬픔1");
+        assertThat(visitedList.get(0).getColor()).isEqualTo("#0000FF");
     }
 
     @Test
