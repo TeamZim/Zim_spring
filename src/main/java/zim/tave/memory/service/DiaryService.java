@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.*;
 import zim.tave.memory.dto.CreateDiaryRequest;
+import zim.tave.memory.dto.TripRepresentativeImageDto;
 import zim.tave.memory.dto.UpdateDiaryOptionalFieldsRequest;
 import zim.tave.memory.repository.DiaryRepository;
 import zim.tave.memory.repository.TripRepository;
@@ -15,6 +16,7 @@ import zim.tave.memory.repository.WeatherRepository;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -145,6 +147,31 @@ public class DiaryService {
 
     public List<Diary> findByUserId(Long userId) {
         return diaryRepository.findByUserId(userId);
+    }
+
+    // 여행별 대표사진 조회
+    public List<TripRepresentativeImageDto> getRepresentativeImagesByTripId(Long tripId) {
+        List<Diary> diaries = diaryRepository.findByTripId(tripId);
+        
+        return diaries.stream()
+                .filter(diary -> diary.getDiaryImages() != null && !diary.getDiaryImages().isEmpty())
+                .map(diary -> {
+                    // 대표사진 찾기 (대표사진이 없으면 첫 번째 이미지)
+                    DiaryImage representativeImage = diary.getDiaryImages().stream()
+                            .filter(DiaryImage::isRepresentative)
+                            .findFirst()
+                            .orElse(diary.getDiaryImages().get(0));
+                    
+                    return new TripRepresentativeImageDto(
+                            diary.getId(),
+                            representativeImage.getImageUrl(),
+                            diary.getCountry().getCountryCode(),
+                            diary.getCountry().getCountryName(),
+                            diary.getCity(),
+                            diary.getContent()
+                    );
+                })
+                .collect(Collectors.toList());
     }
 
     @Transactional
