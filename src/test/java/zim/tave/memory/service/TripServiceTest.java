@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.Trip;
 import zim.tave.memory.repository.TripRepository;
 
-import java.lang.reflect.Member;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -23,9 +23,9 @@ public class Trip {
 
     private Boolean isDeleted;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userId")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tripThemeId")
@@ -42,14 +42,14 @@ public class Trip {
         diary.setTrip(this);
     }
 
-//    //==생성 메서드==//
-//    public static Trip createTrip(Member member, String tripName, LocalDate startDate, String content, TripTheme tripTheme) {
-//        Trip trip = new Trip();
-//        trip.setMember(member);
-//        trip.setTripName(tripName);
-//        trip.setStartDate(startDate);
-//        trip.setContent(content);
-//        trip.setTripTheme(tripTheme);
-//        return trip;
-//    }
+    //==생성 메서드==//
+    public static Trip createTrip(User user, String tripName, LocalDate startDate, String content, TripTheme tripTheme) {
+        Trip trip = new Trip();
+        trip.setUser(user);
+        trip.setTripName(tripName);
+        trip.setStartDate(startDate);
+        trip.setContent(content);
+        trip.setTripTheme(tripTheme);
+        return trip;
+    }
 }

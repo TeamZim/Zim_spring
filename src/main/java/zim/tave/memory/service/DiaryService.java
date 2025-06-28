@@ -7,6 +7,7 @@ import zim.tave.memory.domain.Diary;
 import zim.tave.memory.domain.Trip;
 import zim.tave.memory.repository.DiaryRepository;
 import zim.tave.memory.repository.TripRepository;
+import zim.tave.memory.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiaryService {
 
-//    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private final DiaryRepository diaryRepository;
     private final TripRepository tripRepository;
 

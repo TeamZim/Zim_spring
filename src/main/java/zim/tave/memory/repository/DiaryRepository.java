@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import zim.tave.memory.domain.Diary;
 import zim.tave.memory.domain.Trip;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 @Repository
