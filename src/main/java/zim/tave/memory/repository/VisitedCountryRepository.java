@@ -60,4 +60,9 @@ public class VisitedCountryRepository {
         return count;
     }
 
+    //방문 국가 삭제
+    public void delete(VisitedCountry visitedCountry) {
+        em.remove(em.contains(visitedCountry) ? visitedCountry : em.merge(visitedCountry));
+    }
+
 }
