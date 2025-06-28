@@ -68,8 +68,16 @@ public class DiaryController {
         }
 
         // 정상 로직
-        Diary diary = diaryService.createDiary(request);
-        return ResponseEntity.ok(DiaryResponseDto.from(diary));
+        try {
+            Diary diary = diaryService.createDiary(request);
+            return ResponseEntity.ok(DiaryResponseDto.from(diary));
+        } catch (IllegalArgumentException e) {
+            // 잘못된 데이터로 인한 예외 (사용자/여행/국가 등을 찾을 수 없음)
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            // 기타 예외
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 

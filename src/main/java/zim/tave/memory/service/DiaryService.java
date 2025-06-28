@@ -26,6 +26,8 @@ public class DiaryService {
     private final TripRepository tripRepository;
     private final EmotionRepository emotionRepository;
     private final WeatherRepository weatherRepository;
+    private final CountryService countryService;
+    private final VisitedCountryService visitedCountryService;
 
     @Transactional
     public Diary createDiary(CreateDiaryRequest request) {
@@ -33,9 +35,11 @@ public class DiaryService {
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Trip trip = tripRepository.findOne(request.getTripId());
         
-        // Country 엔티티 생성 (실제로는 CountryService에서 가져와야 함)
-        Country country = new Country();
-        country.setCountryCode(request.getCountryCode());
+        // CountryService를 통해 Country 조회
+        Country country = countryService.findByCode(request.getCountryCode());
+        if (country == null) {
+            throw new IllegalArgumentException("국가 코드를 찾을 수 없습니다: " + request.getCountryCode());
+        }
         
         Diary diary = Diary.createDiary(user, trip, country, request.getCity(), 
                                        request.getDateTime(), request.getContent());
@@ -77,6 +81,14 @@ public class DiaryService {
         
         // Trip의 종료 날짜를 다이어리 생성 날짜로 업데이트
         trip.updateEndDate(diary.getCreatedAt().toLocalDate());
+        
+        // 방문한 국가를 VisitedCountry에 자동 등록
+        try {
+            visitedCountryService.registerVisitedCountryFromDiary(user.getId(), country.getCountryCode());
+        } catch (Exception e) {
+            // VisitedCountry 등록 실패 시 로그만 남기고 다이어리 생성은 계속 진행
+            System.err.println("VisitedCountry 등록 실패: " + e.getMessage());
+        }
         
         return diary;
     }

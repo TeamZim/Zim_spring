@@ -36,7 +36,6 @@ public class TripResponseDto {
         dto.setId(trip.getId());
         dto.setTripName(trip.getTripName());
         dto.setDescription(trip.getDescription());
-        dto.setCreatedAt(trip.getCreatedAt());
         dto.setStartDate(trip.getStartDate());
         dto.setEndDate(trip.getEndDate());
         dto.setIsDeleted(trip.getIsDeleted());
