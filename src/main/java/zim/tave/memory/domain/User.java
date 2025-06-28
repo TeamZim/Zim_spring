@@ -38,8 +38,8 @@ public class User {
     private String nationality;
 
     //마이페이지 Statistics 정보
-    private Integer diaryCount; //일기 수
-    private Integer visitedCountryCount; //방문한 나라 수
+    private Long diaryCount; //일기 수
+    private Long visitedCountryCount; //방문한 나라 수
 
     @Column(length = 255)
     private String flags; //국기
@@ -48,10 +48,10 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Setting setting;
 
-   // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Trip> trips = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trip> trips = new ArrayList<>();
 
-    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Diary> diaries = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diary> diaries = new ArrayList<>();
 }
 

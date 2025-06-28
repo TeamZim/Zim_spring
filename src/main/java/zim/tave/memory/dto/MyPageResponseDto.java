@@ -28,8 +28,8 @@ public class MyPageResponseDto {
     @Getter
     @AllArgsConstructor
     public static class Statistics {
-        private int countryCount;
-        private int diaryCount;
+        private Long countryCount;
+        private Long diaryCount;
     }
 
 }

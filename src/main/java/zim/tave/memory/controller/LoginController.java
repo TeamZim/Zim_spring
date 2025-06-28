@@ -17,6 +17,7 @@ public class LoginController {
 
     private final LoginService loginService;
 
+    //https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=8faa2ba724cbfef5c2abf54ebf9bed65&redirect_uri=http://localhost:8080/callback
     @PostMapping("/kakao")
     public ResponseEntity<LoginResponseDto> kakaoLogin(@RequestBody LoginRequestDto request) {
         LoginResponseDto response = loginService.login(request);
