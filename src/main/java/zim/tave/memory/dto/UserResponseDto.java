@@ -21,7 +21,7 @@ public class UserResponseDto {
     private LocalDate birth;
     private String nationality;
 
-    private Integer diaryCount;
-    private Integer visitedCountryCount;
+    private Long diaryCount;
+    private Long visitedCountryCount;
     private String flags;
 }

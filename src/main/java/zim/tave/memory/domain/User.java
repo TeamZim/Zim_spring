@@ -38,8 +38,8 @@ public class User {
     private String nationality;
 
     //마이페이지 Statistics 정보
-    private Integer diaryCount; //일기 수
-    private Integer visitedCountryCount; //방문한 나라 수
+    private Long diaryCount; //일기 수
+    private Long visitedCountryCount; //방문한 나라 수
 
     @Column(length = 255)
     private String flags; //국기

@@ -3,6 +3,7 @@ package zim.tave.memory.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import zim.tave.memory.domain.User;
+import zim.tave.memory.domain.VisitedCountry;
 import zim.tave.memory.dto.MyPageResponseDto;
 import zim.tave.memory.repository.DiaryRepository;
 import zim.tave.memory.repository.UserRepository;
@@ -37,14 +38,14 @@ public class MyPageService {
 
 
         //Statistics
-        int diaryCount = diaryRepository.countByUserId(userId);
-        int countryCount = visitedCountryRepository.countByUserId(userId);
+        Long diaryCount = diaryRepository.countByUserId(userId);
+        Long countryCount = visitedCountryRepository.countByUserId(userId);
         MyPageResponseDto.Statistics statistics = new MyPageResponseDto.Statistics(countryCount, diaryCount);
 
         // Flags
-        List<String> countryCodes = visitedCountryRepository.findCountryCodesByUserId(userId);
-        String flags = countryCodes.stream()
-                .map(this::countryCodeToEmoji)
+        List<VisitedCountry> visitedCountries = visitedCountryRepository.findByUserId(userId);
+        String flags = visitedCountries.stream()
+                .map(vc -> vc.getCountry().getEmoji())
                 .collect(Collectors.joining());
 
         return new MyPageResponseDto(userInfo, statistics, flags);
