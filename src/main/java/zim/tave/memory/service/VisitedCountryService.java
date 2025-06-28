@@ -29,6 +29,16 @@ public class VisitedCountryService {
         return visitedCountryRepository.findByUserId(userId);
     }
 
+    //방문 국가 색 업데이트
+    public void updateVisitedCountryColor(Long userId, String countryCode, String newColor) {
+        VisitedCountry visitedCountry = visitedCountryRepository.findByUserIdAndCountryCode(userId, countryCode)
+                .orElseThrow(() -> new IllegalArgumentException("해당 국가 기록이 존재하지 않습니다."));
+
+        visitedCountry.setColor(newColor);
+        visitedCountryRepository.save(visitedCountry);
+    }
+
+
     //사용자가 이미 특정 국가를 방문했는지 여부
     public boolean alreadyVisited(Long userId, String countryCode) {
         return visitedCountryRepository.existsByUserIdAndCountryCode(userId, countryCode);
@@ -38,13 +48,14 @@ public class VisitedCountryService {
     public void registerVisitedCountry(Long userId, String countryCode, Long emotionId) {
         if (alreadyVisited(userId, countryCode)) return;
 
-        //User user = userRepository.find(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + userId));
         Country country = countryRepository.findByCode(countryCode);
         Emotion emotion = emotionRepository.findById(emotionId)
                 .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다. ID: " + emotionId));
 
         VisitedCountry visited = new VisitedCountry();
-        //visited.setUser(user);
+        visited.setUser(user);
         visited.setCountry(country);
         visited.setEmotion(emotion);
         visited.setColor(emotion.getColorCode());

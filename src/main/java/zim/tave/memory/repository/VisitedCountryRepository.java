@@ -22,7 +22,7 @@ public class VisitedCountryRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
-///지도에 색을 칠했는지 확인
+//지도애 색을 칠했는지 확인
     public boolean existsByUserIdAndCountryCode(Long userId, String countryCode) {
         Long count = em.createQuery(
                         "SELECT COUNT(v) FROM VisitedCountry v WHERE v.user.id = :userId AND v.country.countryCode = :code",
@@ -34,4 +34,30 @@ public class VisitedCountryRepository {
 
         return count > 0;
     }
+
+    //사용자가 방문한 나라 국가코드와 userId로 찾기
+    public java.util.Optional<VisitedCountry> findByUserIdAndCountryCode(Long userId, String countryCode) {
+        List<VisitedCountry> result = em.createQuery(
+                        "SELECT v FROM VisitedCountry v WHERE v.user.id = :userId AND v.country.countryCode = :code",
+                        VisitedCountry.class
+                )
+                .setParameter("userId", userId)
+                .setParameter("code", countryCode)
+                .getResultList();
+
+        return result.isEmpty() ? java.util.Optional.empty() : java.util.Optional.of(result.get(0));
+    }
+
+    //사용자의 방문 국가 수 조회
+    public Long countByUserId(Long userId) {
+        Long count = em.createQuery(
+                        "SELECT COUNT(v) FROM VisitedCountry v WHERE v.user.id = :userId",
+                        Long.class
+                )
+                .setParameter("userId", userId)
+                .getSingleResult();
+
+        return count;
+    }
+
 }
