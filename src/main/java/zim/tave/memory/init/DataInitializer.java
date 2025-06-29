@@ -48,6 +48,10 @@ public class DataInitializer implements CommandLineRunner {
         if (tripThemeRepository.count() == 0) {
             log.info("여행 테마 데이터 생성 중...");
             
+            TripTheme basicTheme = new TripTheme();
+            basicTheme.setThemeName("기본 테마");
+            tripThemeRepository.save(basicTheme);
+            
             TripTheme summerTheme = new TripTheme();
             summerTheme.setThemeName("여름 테마");
             tripThemeRepository.save(summerTheme);
@@ -55,22 +59,6 @@ public class DataInitializer implements CommandLineRunner {
             TripTheme winterTheme = new TripTheme();
             winterTheme.setThemeName("겨울 테마");
             tripThemeRepository.save(winterTheme);
-            
-            TripTheme springTheme = new TripTheme();
-            springTheme.setThemeName("봄 테마");
-            tripThemeRepository.save(springTheme);
-            
-            TripTheme autumnTheme = new TripTheme();
-            autumnTheme.setThemeName("가을 테마");
-            tripThemeRepository.save(autumnTheme);
-            
-            TripTheme oceanTheme = new TripTheme();
-            oceanTheme.setThemeName("바다 테마");
-            tripThemeRepository.save(oceanTheme);
-            
-            TripTheme mountainTheme = new TripTheme();
-            mountainTheme.setThemeName("산 테마");
-            tripThemeRepository.save(mountainTheme);
             
             log.info("여행 테마 데이터 생성 완료: {}개", tripThemeRepository.count());
         }
@@ -80,14 +68,19 @@ public class DataInitializer implements CommandLineRunner {
         if (emotionRepository.count() == 0) {
             log.info("감정 데이터 생성 중...");
             
-            emotionRepository.save(new Emotion("행복", "#FFD700"));
-            emotionRepository.save(new Emotion("설렘", "#FF69B4"));
-            emotionRepository.save(new Emotion("평온", "#87CEEB"));
-            emotionRepository.save(new Emotion("감동", "#FF6347"));
-            emotionRepository.save(new Emotion("즐거움", "#32CD32"));
-            emotionRepository.save(new Emotion("그리움", "#9370DB"));
-            emotionRepository.save(new Emotion("신남", "#FFA500"));
-            emotionRepository.save(new Emotion("차분함", "#708090"));
+            emotionRepository.save(new Emotion("설렘", "#FDD7DE"));
+            emotionRepository.save(new Emotion("신기함", "#FFCB6B"));
+            emotionRepository.save(new Emotion("즐거움", "#FFE13E"));
+            emotionRepository.save(new Emotion("힐링", "#C1E8A0"));
+            emotionRepository.save(new Emotion("평온", "#D1E5D4"));
+            emotionRepository.save(new Emotion("뿌듯함", "#5ACFD5"));
+            emotionRepository.save(new Emotion("해방감", "#5EB6D9"));
+            emotionRepository.save(new Emotion("낯섦", "#634E72"));
+            emotionRepository.save(new Emotion("긴장됨", "#2C3E50"));
+            emotionRepository.save(new Emotion("외로움", "#A9A9B0"));
+            emotionRepository.save(new Emotion("아쉬움", "#866868"));
+            emotionRepository.save(new Emotion("벅참", "#800020"));
+
             
             log.info("감정 데이터 생성 완료: {}개", emotionRepository.count());
         }

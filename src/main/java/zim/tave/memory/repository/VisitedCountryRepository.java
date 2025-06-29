@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import zim.tave.memory.domain.VisitedCountry;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,6 +16,11 @@ public class VisitedCountryRepository {
 
     public void save(VisitedCountry visitedCountry) {
         em.persist(visitedCountry);
+    }
+
+    public Optional<VisitedCountry> findById(Long visitedCountryId) {
+        VisitedCountry visitedCountry = em.find(VisitedCountry.class, visitedCountryId);
+        return Optional.ofNullable(visitedCountry);
     }
 
     public List<VisitedCountry> findByUserId(Long userId) {

@@ -17,7 +17,7 @@ public class CountryController {
 
     private final VisitedCountryService visitedCountryService;
 
-    // 1. 특정 사용자의 방문 국가 전체 조회
+    // 1. 특정 사용자의 방문 국가 전체 조회 (감정 정보 포함)
     @GetMapping("/{userId}")
     public ResponseEntity<List<VisitedCountryResponseDto>> getVisitedCountries(@PathVariable Long userId) {
         List<VisitedCountryResponseDto> visitedCountries = visitedCountryService.getVisitedCountries(userId)
