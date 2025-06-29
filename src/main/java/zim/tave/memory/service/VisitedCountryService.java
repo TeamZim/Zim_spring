@@ -24,7 +24,7 @@ public class VisitedCountryService {
     private final UserRepository userRepository;
     private final EmotionRepository emotionRepository;
 
-    //사용자의 모든 방문 국가 목록 조회
+    //사용자의 모든 방문 국가 목록 조회 (감정 정보 포함)
     public List<VisitedCountry> getVisitedCountries(Long userId) {
         return visitedCountryRepository.findByUserId(userId);
     }
@@ -37,7 +37,6 @@ public class VisitedCountryService {
         visitedCountry.setColor(newColor);
         visitedCountryRepository.save(visitedCountry);
     }
-
 
     //사용자가 이미 특정 국가를 방문했는지 여부
     public boolean alreadyVisited(Long userId, String countryCode) {
