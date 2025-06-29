@@ -34,13 +34,12 @@ public class MyPageService {
         MyPageResponseDto.UserInfo userInfo = new MyPageResponseDto.UserInfo(
                 user.getId(),
                 user.getProfileImageUrl(),
-                user.getSurName(),
-                user.getFirstName(),
+                user.getSurName().toUpperCase(),
+                user.getFirstName().toUpperCase(),
                 user.getKoreanName(),
                 formattedBirth,
                 user.getNationality()
         );
-
 
         //Statistics
         Long diaryCount = diaryRepository.countByUserId(userId);
