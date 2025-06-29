@@ -21,7 +21,7 @@ public class MyPageResponseDto {
         private String surName;
         private String firstName;
         private String koreanName;
-        private LocalDate birth;
+        private String birth;
         private String nationality;
     }
 
