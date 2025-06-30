@@ -32,8 +32,8 @@ public class LoginController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공",
                     content = @Content(schema = @Schema(implementation = LoginResponseDto.class))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청 (유효하지 않은 accessToken 등)"),
-            @ApiResponse(responseCode = "500", description = "서버 오류")
+            @ApiResponse(responseCode = "400", description = "잘못된 요청 (유효하지 않은 accessToken 등)", content = @Content()),
+            @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @PostMapping("/kakao")
     public ResponseEntity<LoginResponseDto> kakaoLogin(

@@ -27,8 +27,8 @@ public class JoinController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
                     content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
-            @ApiResponse(responseCode = "400", description = "이미 가입된 계정, 입력값 오류 등"),
-            @ApiResponse(responseCode = "500", description = "서버 오류")})
+            @ApiResponse(responseCode = "400", description = "이미 가입된 계정, 입력값 오류 등", content = @Content()),
+            @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())})
     @PostMapping
     public ResponseEntity<UserResponseDto> join(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
