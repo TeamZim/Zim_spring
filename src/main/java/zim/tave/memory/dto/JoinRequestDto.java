@@ -27,7 +27,7 @@ public class JoinRequestDto {
     @Schema(description = "사용자 한글 이름(필수)", example = "강지혜")
     private String koreanName;
 
-    @Schema(description = "생년월일[yyyy-MM-dd](필수)", example = "2000-01-01")
+    @Schema(description = "생년월일(필수)[yyyy-MM-dd]", example = "2000-01-01")
     private LocalDate birth;
 
     @Schema(description = "국가명(필수)", example = "REPUBLIC OF KOREA")

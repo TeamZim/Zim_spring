@@ -17,7 +17,7 @@ import zim.tave.memory.service.JoinService;
 @RestController
 @RequestMapping("/api/join")
 @RequiredArgsConstructor
-@Tag(name = "Join API", description = "회원가입 API (카카오 로그인 후 사용자 정보 입력)")
+@Tag(name = "join-controller", description = "회원가입(카카오 로그인 후 사용자 정보 입력)")
 public class JoinController {
     private final JoinService joinService;
 
@@ -27,8 +27,8 @@ public class JoinController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공",
                     content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
-            @ApiResponse(responseCode = "400", description = "이미 가입된 계정, 입력값 오류 등", content = @Content()),
-            @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())})
+            @ApiResponse(responseCode = "400", description = "입력값 오류", content = @Content()),
+            @ApiResponse(responseCode = "500", description = "서버 오류, 중복 계정", content = @Content())})
     @PostMapping
     public ResponseEntity<UserResponseDto> join(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
