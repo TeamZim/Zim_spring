@@ -197,4 +197,14 @@ public class DiaryService {
             trip.setEndDate(latestDate);
         }
     }
+
+    // DiaryImage ID로 DiaryImage 찾기
+    public DiaryImage findDiaryImageById(Long imageId) {
+        List<Diary> allDiaries = diaryRepository.findAll();
+        return allDiaries.stream()
+                .flatMap(diary -> diary.getDiaryImages().stream())
+                .filter(image -> image.getId().equals(imageId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이미지를 찾을 수 없습니다. ID: " + imageId));
+    }
 }
