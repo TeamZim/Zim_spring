@@ -47,6 +47,8 @@ public class Trip {
     @Lob
     private String content;
 
+    private String representativeImageUrl; // 여행의 대표 사진 URL
+
     @JsonManagedReference
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Diary> diaries = new ArrayList<>();

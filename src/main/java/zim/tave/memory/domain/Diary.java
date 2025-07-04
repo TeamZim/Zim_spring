@@ -36,7 +36,7 @@ public class Diary {
     private LocalDateTime dateTime;
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, length = 88)
     private String content;
 
     private String detailedLocation;

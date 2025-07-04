@@ -18,6 +18,7 @@ public class TripResponseDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private Boolean isDeleted;
+    private String representativeImageUrl; // 여행의 대표 사진 URL
     
     // 간단한 사용자 정보
     private Long userId;
@@ -39,6 +40,7 @@ public class TripResponseDto {
         dto.setStartDate(trip.getStartDate());
         dto.setEndDate(trip.getEndDate());
         dto.setIsDeleted(trip.getIsDeleted());
+        dto.setRepresentativeImageUrl(trip.getRepresentativeImageUrl());
         
         // 사용자 정보
         if (trip.getUser() != null) {
