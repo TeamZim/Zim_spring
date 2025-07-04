@@ -19,7 +19,7 @@ import zim.tave.memory.service.LoginService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/login")
-@Tag(name = "Kakao Login API", description = "카카오 로그인 API")
+@Tag(name = "kakaoLogin-controller", description = "카카오 로그인")
 public class LoginController {
     /*
     토큰 발급 URL
@@ -32,8 +32,8 @@ public class LoginController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공",
                     content = @Content(schema = @Schema(implementation = LoginResponseDto.class))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청 (유효하지 않은 accessToken 등)", content = @Content()),
-            @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
+            @ApiResponse(responseCode = "400", description = "잘못된 요청 (client id 오류, 만료된 authorization code 등)", content = @Content()),
+            @ApiResponse(responseCode = "500", description = "서버 오류, 유효하지 않은 토큰", content = @Content())
     })
     @PostMapping("/kakao")
     public ResponseEntity<LoginResponseDto> kakaoLogin(
