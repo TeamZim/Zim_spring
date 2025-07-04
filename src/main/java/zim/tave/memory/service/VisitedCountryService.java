@@ -45,11 +45,26 @@ public class VisitedCountryService {
 
     //방문 국가 등록 (기존 기록이 있으면 감정과 색상 업데이트)
     public void registerVisitedCountry(Long userId, String countryCode, Long emotionId) {
+        if (countryCode == null || countryCode.trim().isEmpty()) {
+            throw new IllegalArgumentException("국가를 선택해야 합니다.");
+        }
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + userId));
         Country country = countryRepository.findByCode(countryCode);
-        Emotion emotion = emotionRepository.findById(emotionId)
-                .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다. ID: " + emotionId));
+        if (country == null) {
+            throw new IllegalArgumentException("해당 국가가 존재하지 않습니다. code=" + countryCode);
+        }
+        // 감정이 null이면 '설렘'으로 대체
+        Emotion emotion;
+        if (emotionId == null) {
+            emotion = emotionRepository.findByName("설렘");
+            if (emotion == null || !"#FDD7DE".equals(emotion.getColorCode())) {
+                throw new IllegalArgumentException("기본 감정(설렘, #FDD7DE)이 존재하지 않습니다.");
+            }
+        } else {
+            emotion = emotionRepository.findById(emotionId)
+                    .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다. ID: " + emotionId));
+        }
 
         // 기존 기록이 있는지 확인
         var existingVisitedCountry = visitedCountryRepository.findByUserIdAndCountryCode(userId, countryCode);
