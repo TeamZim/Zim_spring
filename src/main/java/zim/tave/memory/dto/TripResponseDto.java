@@ -5,7 +5,6 @@ import lombok.Setter;
 import zim.tave.memory.domain.Trip;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,7 +13,6 @@ public class TripResponseDto {
     private Long id;
     private String tripName;
     private String description;
-    private LocalDateTime createdAt;
     private LocalDate startDate;
     private LocalDate endDate;
     private Boolean isDeleted;
