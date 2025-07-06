@@ -137,7 +137,7 @@ public class TripController {
     }
 
     @GetMapping("/{tripId}/representative-images")
-    @Operation(summary = "여행별 대표사진 조회", description = "특정 여행의 모든 대표사진을 조회합니다.")
+    @Operation(summary = "여행에 속한 다이어리들의 대표사진 목록 조회", description = "특정 여행에 속한 모든 다이어리들의 대표사진을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "대표사진 조회 성공",
                     content = @Content(schema = @Schema(implementation = TripRepresentativeImageDto.class))),
