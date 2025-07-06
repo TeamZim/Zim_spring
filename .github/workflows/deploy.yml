@@ -46,10 +46,10 @@ jobs:
           sudo pkill -f "memory-0.0.1-SNAPSHOT.jar" || true
           
           # 환경변수 로드
-          cd ~/app
           source ~/.env
           
-          # 새 애플리케이션 시작
+          # 애플리케이션 시작
+          cd ~/app
           nohup java -Xmx350m -Xms256m -XX:+UseG1GC \
             -Dspring.datasource.url=jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME} \
             -Dspring.datasource.username=${DB_USERNAME} \
@@ -60,10 +60,13 @@ jobs:
             -jar build/libs/memory-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod > ~/logs/app.log 2>&1 &
           
           # 애플리케이션 시작 확인
-          sleep 10
+          sleep 15
           if pgrep -f "memory-0.0.1-SNAPSHOT.jar" > /dev/null; then
             echo "Application started successfully"
+            tail -5 ~/logs/app.log
           else
             echo "Application failed to start"
+            echo "Error logs:"
+            tail -10 ~/logs/app.log
             exit 1
           fi 
