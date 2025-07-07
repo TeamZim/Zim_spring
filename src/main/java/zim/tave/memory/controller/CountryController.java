@@ -37,14 +37,14 @@ public class CountryController {
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @GetMapping("/{userId}")
-    public ResponseEntity<List<VisitedCountryResponseDto>> getVisitedCountries(
+    public ResponseEntity<ListResponse<VisitedCountryResponseDto>> getVisitedCountries(
         @Parameter(description = "조회할 사용자 ID", example = "1")
         @PathVariable Long userId) {
         List<VisitedCountryResponseDto> visitedCountries = visitedCountryService.getVisitedCountries(userId)
                 .stream()
                 .map(VisitedCountryResponseDto::from)
                 .toList();
-        return ResponseEntity.ok(visitedCountries);
+        return ResponseEntity.ok(new ListResponse<>(visitedCountries));
     }
 
 
