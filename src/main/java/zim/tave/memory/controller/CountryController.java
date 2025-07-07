@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.dto.CountrySearchResponseDto;
+import zim.tave.memory.dto.ListResponse;
 
 import java.util.List;
 
@@ -36,14 +37,14 @@ public class CountryController {
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @GetMapping("/{userId}")
-    public ResponseEntity<List<VisitedCountryResponseDto>> getVisitedCountries(
+    public ResponseEntity<ListResponse<VisitedCountryResponseDto>> getVisitedCountries(
         @Parameter(description = "조회할 사용자 ID", example = "1")
         @PathVariable Long userId) {
         List<VisitedCountryResponseDto> visitedCountries = visitedCountryService.getVisitedCountries(userId)
                 .stream()
                 .map(VisitedCountryResponseDto::from)
                 .toList();
-        return ResponseEntity.ok(visitedCountries);
+        return ResponseEntity.ok(new ListResponse<>(visitedCountries));
     }
 
 
@@ -54,7 +55,7 @@ public class CountryController {
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @GetMapping("/search")
-    public ResponseEntity<List<CountrySearchResponseDto>> searchCountries(
+    public ResponseEntity<ListResponse<CountrySearchResponseDto>> searchCountries(
         @Parameter(description = "검색할 나라 이름(한글)", example = "한국")
         @RequestParam String keyword
     ) {
@@ -62,7 +63,7 @@ public class CountryController {
         List<CountrySearchResponseDto> result = countries.stream()
             .map(c -> new CountrySearchResponseDto(c.getCountryCode(), c.getCountryName(), c.getEmoji()))
             .toList();
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(new ListResponse<>(result));
     }
     
 
