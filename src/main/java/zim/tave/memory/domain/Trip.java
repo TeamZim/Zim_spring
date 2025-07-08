@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +23,6 @@ public class Trip {
 
     @Column(length = 56)
     private String description;
-
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
 
     @Column(updatable = false)
     private LocalDate startDate;

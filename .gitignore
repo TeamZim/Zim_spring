@@ -58,4 +58,4 @@ application-secret.yml
 # ------------------------------------------
 # OS 시스템 파일
 .DS_Store
-Thumbs.db
+Thumbs.dbmemory-ec2-key.pem

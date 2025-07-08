@@ -37,7 +37,6 @@ class TripTest {
         assertThat(trip.getUser()).isEqualTo(user);
         assertThat(trip.getTripTheme()).isEqualTo(tripTheme);
         assertThat(trip.getStartDate()).isEqualTo(LocalDate.now());
-        assertThat(trip.getCreatedAt()).isNotNull();
         assertThat(trip.getIsDeleted()).isFalse();
     }
 
