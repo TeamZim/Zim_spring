@@ -34,3 +34,11 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+server:
+  port: 443
+  ssl:
+    key-store: ./keystore.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    enabled: true
