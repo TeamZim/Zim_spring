@@ -24,7 +24,6 @@ public class Trip {
     @Column(length = 56)
     private String description;
 
-    @Column(updatable = false)
     private LocalDate startDate;
 
     private LocalDate endDate;
