@@ -62,6 +62,18 @@ public class TripService {
                     .orElseThrow(() -> new IllegalArgumentException("테마를 찾을 수 없습니다."));
             findTrip.setTripTheme(theme);
         }
+        
+        if (request.getRepresentativeImageUrl() != null) {
+            findTrip.setRepresentativeImageUrl(request.getRepresentativeImageUrl());
+        }
+        
+        if (request.getStartDate() != null) {
+            findTrip.setStartDate(request.getStartDate());
+        }
+        
+        if (request.getEndDate() != null) {
+            findTrip.setEndDate(request.getEndDate());
+        }
     }
 
     public List<Trip> findAll() {

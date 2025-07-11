@@ -36,9 +36,8 @@ logging:
     org.hibernate.type: trace
 
 server:
-  port: 443
+  port: 8081
+  forward-headers-strategy: none
   ssl:
-    key-store: ./keystore.p12
-    key-store-password: changeit
-    key-store-type: PKCS12
-    enabled: true
+    enabled: false
+  use-forward-headers: false

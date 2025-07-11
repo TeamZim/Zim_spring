@@ -79,6 +79,12 @@ public class TripController {
             return ResponseEntity.badRequest().build();
         }
         
+        // 날짜 순서 검증: startDate가 endDate보다 늦으면 안됨
+        if (request.getStartDate() != null && request.getEndDate() != null && 
+            request.getStartDate().isAfter(request.getEndDate())) {
+            return ResponseEntity.badRequest().build();
+        }
+        
         tripService.updateTrip(tripId, request);
         return ResponseEntity.ok().build();
     }

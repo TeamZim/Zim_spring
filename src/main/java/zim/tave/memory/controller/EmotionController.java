@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import zim.tave.memory.domain.Emotion;
 import zim.tave.memory.service.EmotionService;
-import zim.tave.memory.dto.ListResponse;
-
 import java.util.List;
 
 @RestController
@@ -31,8 +29,8 @@ public class EmotionController {
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @GetMapping("")
-    public ResponseEntity<ListResponse<Emotion>> getAllEmotions() {
+    public ResponseEntity<List<Emotion>> getAllEmotions() {
         List<Emotion> emotions = emotionService.getAllEmotions();
-        return ResponseEntity.ok(new ListResponse<>(emotions));
+        return ResponseEntity.ok(emotions);
     }
 } 
