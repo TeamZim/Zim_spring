@@ -49,8 +49,8 @@ public class SettingServiceTest {
         testUser.setNationality("KOREA");
         testUser.setCreatedAt(LocalDate.now());
         testUser.setStatus(true);
-        testUser.setDiaryCount(0);
-        testUser.setVisitedCountryCount(0);
+        testUser.setDiaryCount(0L);
+        testUser.setVisitedCountryCount(0L);
         testUser.setFlags("");
 
         User savedTestUser = userRepository.save(testUser);
