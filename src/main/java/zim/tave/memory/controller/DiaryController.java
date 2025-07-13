@@ -39,23 +39,31 @@ public class DiaryController {
             @ApiResponse(responseCode = "500", description = "서버 내부 오류", content = @Content)
     })
     public ResponseEntity<DiaryResponseDto> createDiary(@RequestBody CreateDiaryRequest request) {
+        System.out.println("=== 일기 생성 요청 시작 ===");
+        System.out.println("Request: " + request);
+        
         // 도시 검증
         if (request.getCity() == null || request.getCity().trim().isEmpty()) {
+            System.out.println("검증 실패: 도시 정보 누락");
             return ResponseEntity.badRequest().build();
         }
 
         // 날짜 검증
         if (request.getDateTime() == null) {
+            System.out.println("검증 실패: 날짜 정보 누락");
             return ResponseEntity.badRequest().build();
         }
 
         // 내용 검증
         if (request.getContent() == null || request.getContent().trim().isEmpty()) {
+            System.out.println("검증 실패: 내용 누락");
             return ResponseEntity.badRequest().build();
         }
 
         // 이미지 2장 있는지 확인
         if (request.getImages() == null || request.getImages().size() != 2) {
+            System.out.println("검증 실패: 이미지 개수 오류. 현재 개수: " + 
+                (request.getImages() == null ? "null" : request.getImages().size()));
             return ResponseEntity.badRequest().build();
         }
 
@@ -66,6 +74,7 @@ public class DiaryController {
                 .anyMatch(img -> img.getCameraType() == CameraType.BACK);
 
         if (!hasFrontCamera || !hasBackCamera) {
+            System.out.println("검증 실패: 카메라 타입 오류. FRONT: " + hasFrontCamera + ", BACK: " + hasBackCamera);
             return ResponseEntity.badRequest().build();
         }
 
@@ -75,22 +84,38 @@ public class DiaryController {
                 .count();
 
         if (representativeCount != 1) {
+            System.out.println("검증 실패: 대표 이미지 개수 오류. 현재 개수: " + representativeCount);
             return ResponseEntity.badRequest().build();
         }
 
         if (request.getCountryCode() == null || request.getCountryCode().trim().isEmpty()) {
+            System.out.println("검증 실패: 국가 코드 누락");
             return ResponseEntity.badRequest().build();
         }
+        
+        System.out.println("모든 검증 통과, 서비스 호출");
 
         // 정상 로직
         try {
             Diary diary = diaryService.createDiary(request);
             return ResponseEntity.ok(DiaryResponseDto.from(diary));
         } catch (IllegalArgumentException e) {
-            // 잘못된 데이터로 인한 예외 (사용자/여행/국가 등을 찾을 수 없음)
+            System.out.println("일기 생성 실패: " + e.getMessage());
+            // 구체적인 에러 메시지를 로그로 남기고 클라이언트에게는 간단한 오류 반환
+            if (e.getMessage().contains("국가 코드를 찾을 수 없습니다")) {
+                System.out.println("존재하지 않는 국가 코드: " + request.getCountryCode());
+            } else if (e.getMessage().contains("사용자를 찾을 수 없습니다")) {
+                System.out.println("존재하지 않는 사용자");
+            } else if (e.getMessage().contains("여행을 찾을 수 없습니다")) {
+                System.out.println("존재하지 않는 여행");
+            } else if (e.getMessage().contains("감정을 찾을 수 없습니다")) {
+                System.out.println("존재하지 않는 감정");
+            } else if (e.getMessage().contains("날씨를 찾을 수 없습니다")) {
+                System.out.println("존재하지 않는 날씨");
+            }
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            // 기타 예외
+            System.out.println("일기 생성 중 예상치 못한 오류: " + e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }

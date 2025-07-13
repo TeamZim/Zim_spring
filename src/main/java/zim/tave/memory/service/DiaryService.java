@@ -36,6 +36,9 @@ public class DiaryService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         Trip trip = tripRepository.findOne(request.getTripId());
+        if (trip == null) {
+            throw new IllegalArgumentException("여행을 찾을 수 없습니다: " + request.getTripId());
+        }
         
         // CountryService를 통해 Country 조회
         Country country = countryService.findByCode(request.getCountryCode());
@@ -43,11 +46,12 @@ public class DiaryService {
             throw new IllegalArgumentException("국가 코드를 찾을 수 없습니다: " + request.getCountryCode());
         }
         
-        // 감정은 필수 필드
-        if (request.getEmotionId() == null) {
-            throw new IllegalArgumentException("감정은 필수 입력 항목입니다.");
+        // 감정 처리: 감정이 선택되지 않으면 기본 감정(id=1)을 사용
+        Long emotionId = request.getEmotionId();
+        if (emotionId == null) {
+            emotionId = 1L; // 기본 감정 ID
         }
-        Emotion emotion = emotionRepository.findById(request.getEmotionId())
+        Emotion emotion = emotionRepository.findById(emotionId)
                 .orElseThrow(() -> new IllegalArgumentException("감정을 찾을 수 없습니다."));
         
         Diary diary = Diary.createDiary(user, trip, country, request.getCity(), 
@@ -77,6 +81,9 @@ public class DiaryService {
         
         diary.setOptionalFields(request.getDetailedLocation(), request.getAudioUrl(), 
                                emotion, weather);
+        
+        // 이미지와 선택적 필드 설정 후 다시 저장
+        diaryRepository.save(diary);
         
         // Trip의 종료 날짜를 다이어리 생성 날짜로 업데이트
         trip.updateEndDate(diary.getCreatedAt().toLocalDate());
@@ -162,14 +169,15 @@ public class DiaryService {
                             .findFirst()
                             .orElse(diary.getDiaryImages().get(0));
                     
-                    return new TripRepresentativeImageDto(
-                            diary.getId(),
-                            representativeImage.getImageUrl(),
-                            diary.getCountry().getCountryCode(),
-                            diary.getCountry().getCountryName(),
-                            diary.getCity(),
-                            diary.getContent()
-                    );
+                                    return new TripRepresentativeImageDto(
+                        diary.getId(),
+                        representativeImage.getId(),
+                        representativeImage.getImageUrl(),
+                        diary.getCountry().getCountryCode(),
+                        diary.getCountry().getCountryName(),
+                        diary.getCity(),
+                        diary.getContent()
+                );
                 })
                 .collect(Collectors.toList());
     }
