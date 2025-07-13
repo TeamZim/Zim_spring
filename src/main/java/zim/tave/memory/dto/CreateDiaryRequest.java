@@ -45,7 +45,7 @@ public class CreateDiaryRequest {
     @Schema(description = "오디오 URL", example = "https://audio-bucket.s3.amazonaws.com/audio.mp3")
     private String audioUrl;
     
-    @Schema(description = "감정 ID", example = "1")
+    @Schema(description = "감정 ID (선택사항, 미입력 시 기본 감정 자동 설정)", example = "1")
     private Long emotionId;
     
     @Schema(description = "날씨 ID", example = "1")

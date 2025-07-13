@@ -52,10 +52,6 @@ public class TripController {
             return ResponseEntity.badRequest().build();
         }
         
-        if (request.getThemeId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        
         Trip trip = tripService.createTrip(request);
         return ResponseEntity.ok(TripResponseDto.from(trip));
     }

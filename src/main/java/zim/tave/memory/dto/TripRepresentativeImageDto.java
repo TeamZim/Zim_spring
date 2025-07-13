@@ -8,6 +8,7 @@ import lombok.Setter;
 public class TripRepresentativeImageDto {
     
     private Long diaryId;
+    private Long imageId;
     private String imageUrl;
     private String countryCode;
     private String countryName;
@@ -16,9 +17,10 @@ public class TripRepresentativeImageDto {
     
     public TripRepresentativeImageDto() {}
     
-    public TripRepresentativeImageDto(Long diaryId, String imageUrl, String countryCode, 
+    public TripRepresentativeImageDto(Long diaryId, Long imageId, String imageUrl, String countryCode, 
                                     String countryName, String city, String content) {
         this.diaryId = diaryId;
+        this.imageId = imageId;
         this.imageUrl = imageUrl;
         this.countryCode = countryCode;
         this.countryName = countryName;

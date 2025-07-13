@@ -15,7 +15,7 @@ public class CreateTripRequest {
     @Schema(description = "여행 설명", example = "가족과 함께하는 제주도 여행", maxLength = 56)
     private String description;
     
-    @Schema(description = "여행 테마 ID", example = "1", required = true)
+    @Schema(description = "여행 테마 ID (선택사항, 미입력 시 기본 테마 자동 설정)", example = "1")
     private Long themeId;
     
     @Schema(description = "사용자 ID", example = "1", required = true)

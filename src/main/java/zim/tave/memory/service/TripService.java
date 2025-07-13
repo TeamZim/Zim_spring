@@ -28,7 +28,13 @@ public class TripService {
 
     @Transactional
     public Trip createTrip(CreateTripRequest request) {
-        TripTheme theme = tripThemeRepository.findById(request.getThemeId())
+        // 테마 처리: 테마가 선택되지 않으면 기본 테마(id=1)를 사용
+        Long themeId = request.getThemeId();
+        if (themeId == null) {
+            themeId = 1L; // 기본 테마 ID
+        }
+        
+        TripTheme theme = tripThemeRepository.findById(themeId)
                 .orElseThrow(() -> new IllegalArgumentException("테마를 찾을 수 없습니다."));
         
         // User는 실제로는 인증된 사용자에서 가져와야 함

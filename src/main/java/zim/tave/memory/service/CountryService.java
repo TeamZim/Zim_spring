@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.repository.CountryRepository;
 import zim.tave.memory.util.EmojiValidator;
+import zim.tave.memory.util.CountryValidator;
 
 import java.util.List;
 
@@ -18,14 +19,27 @@ public class CountryService {
 
 
     public List<Country> searchCountriesByName(String keyword) {
-        return countryRepository.findByNameContaining(keyword);
+        // 검색 키워드 검증 - 간단한 null/empty 체크만
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return List.of();
+        }
+        return countryRepository.findByNameContaining(keyword.trim());
     }
 
     public Country findByCode(String countryCode) {
-        return countryRepository.findByCode(countryCode);
+        // 국가 코드 검증 - 간단한 null/empty 체크만
+        if (countryCode == null || countryCode.trim().isEmpty()) {
+            return null;
+        }
+        return countryRepository.findByCode(countryCode.trim().toUpperCase());
     }
 
     public void saveCountry(Country country) {
+        // 국가 코드 검증
+        if (country.getCountryCode() != null) {
+            CountryValidator.validateCountryCode(country.getCountryCode());
+        }
+        
         // 이모지 유효성 검증
         if (country.getEmoji() != null && !EmojiValidator.isUtf8mb4Compatible(country.getEmoji())) {
             throw new IllegalArgumentException("유효하지 않은 이모지입니다: " + country.getEmoji());

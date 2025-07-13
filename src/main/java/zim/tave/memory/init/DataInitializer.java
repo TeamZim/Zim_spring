@@ -42,17 +42,41 @@ public class DataInitializer implements CommandLineRunner {
         if (tripThemeRepository.count() == 0) {
             log.info("여행 테마 데이터 생성 중...");
             
-            TripTheme basicTheme = new TripTheme();
-            basicTheme.setThemeName("기본 테마");
+            // 기본 테마 (ID 1)
+            TripTheme basicTheme = new TripTheme("기본", 
+                    "https://images.example.com/themes/basic/sample.jpg", 
+                    "https://images.example.com/themes/basic/card.jpg");
             tripThemeRepository.save(basicTheme);
             
-            TripTheme summerTheme = new TripTheme();
-            summerTheme.setThemeName("여름 테마");
-            tripThemeRepository.save(summerTheme);
+            // Grey 테마 (ID 2)
+            TripTheme greyTheme = new TripTheme("Grey", 
+                    "https://images.example.com/themes/grey/sample.jpg", 
+                    "https://images.example.com/themes/grey/card.jpg");
+            tripThemeRepository.save(greyTheme);
             
-            TripTheme winterTheme = new TripTheme();
-            winterTheme.setThemeName("겨울 테마");
-            tripThemeRepository.save(winterTheme);
+            // 탑승권 테마 (ID 3)
+            TripTheme ticketTheme = new TripTheme("탑승권", 
+                    "https://images.example.com/themes/ticket/sample.jpg", 
+                    "https://images.example.com/themes/ticket/card.jpg");
+            tripThemeRepository.save(ticketTheme);
+            
+            // 액자 테마 (ID 4)
+            TripTheme frameTheme = new TripTheme("액자", 
+                    "https://images.example.com/themes/frame/sample.jpg", 
+                    "https://images.example.com/themes/frame/card.jpg");
+            tripThemeRepository.save(frameTheme);
+            
+            // Beach 테마 (ID 5)
+            TripTheme beachTheme = new TripTheme("Beach", 
+                    "https://images.example.com/themes/beach/sample.jpg", 
+                    "https://images.example.com/themes/beach/card.jpg");
+            tripThemeRepository.save(beachTheme);
+            
+            // Forest 테마 (ID 6)
+            TripTheme forestTheme = new TripTheme("Forest", 
+                    "https://images.example.com/themes/forest/sample.jpg", 
+                    "https://images.example.com/themes/forest/card.jpg");
+            tripThemeRepository.save(forestTheme);
             
             log.info("여행 테마 데이터 생성 완료: {}개", tripThemeRepository.count());
         }
@@ -116,7 +140,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void initTestUser() {
         // 테스트용 사용자가 없으면 생성
-        if (!userRepository.findByKakaoId("test_user").isPresent()) {
+        if (!userRepository.findByKakaoId("test_강지혜").isPresent()) {
             log.info("테스트 사용자 데이터 생성 중...");
             
             User testUser = new User();
@@ -127,6 +151,8 @@ public class DataInitializer implements CommandLineRunner {
             userRepository.save(testUser);
             
             log.info("테스트 사용자 데이터 생성 완료");
+        } else {
+            log.info("테스트 사용자가 이미 존재합니다.");
         }
     }
 } 

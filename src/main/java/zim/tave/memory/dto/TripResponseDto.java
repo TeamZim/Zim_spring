@@ -23,9 +23,11 @@ public class TripResponseDto {
     private String userKakaoId;
     private String userKoreanName;
     
-    // 간단한 테마 정보
+    // 테마 정보
     private Long themeId;
     private String themeName;
+    private String themeSampleImageUrl;  // 테마 선택 시 보여줄 샘플 이미지
+    private String themeCardImageUrl;    // 실제 카드에 들어갈 이미지
     
     // 다이어리 개수
     private int diaryCount;
@@ -51,6 +53,8 @@ public class TripResponseDto {
         if (trip.getTripTheme() != null) {
             dto.setThemeId(trip.getTripTheme().getId());
             dto.setThemeName(trip.getTripTheme().getThemeName());
+            dto.setThemeSampleImageUrl(trip.getTripTheme().getSampleImageUrl());
+            dto.setThemeCardImageUrl(trip.getTripTheme().getCardImageUrl());
         }
         
         // 다이어리 개수
