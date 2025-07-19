@@ -60,17 +60,11 @@ public class CountryController {
         @RequestParam String keyword
     ) {
         try {
-            // 검색 키워드 검증 - 간단한 null/empty 체크만
-            if (keyword == null || keyword.trim().isEmpty()) {
-                System.out.println("검색 키워드가 비어있습니다.");
-                return ResponseEntity.ok(new ListResponse<>(List.of()));
-            }
-            
+            // Controller에서 빈 키워드일 때 빈 리스트 반환하지 않고, service에서 전체 국가 반환하도록 위임
             List<Country> countries = countryService.searchCountriesByName(keyword);
             List<CountrySearchResponseDto> result = countries.stream()
                 .map(c -> new CountrySearchResponseDto(c.getCountryCode(), c.getCountryName(), c.getEmoji()))
                 .toList();
-            
             System.out.println("국가 검색 결과: " + result.size() + "개 국가 발견");
             return ResponseEntity.ok(new ListResponse<>(result));
         } catch (Exception e) {
