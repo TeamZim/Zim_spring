@@ -15,7 +15,6 @@ public class TripResponseDto {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Boolean isDeleted;
     private String representativeImageUrl; // 여행의 대표 사진 URL
     
     // 간단한 사용자 정보
@@ -39,8 +38,22 @@ public class TripResponseDto {
         dto.setDescription(trip.getDescription());
         dto.setStartDate(trip.getStartDate());
         dto.setEndDate(trip.getEndDate());
-        dto.setIsDeleted(trip.getIsDeleted());
-        dto.setRepresentativeImageUrl(trip.getRepresentativeImageUrl());
+        
+        // 대표 사진 설정: 직접 설정된 경우 사용, 없으면 첫 번째 다이어리의 대표 사진 사용
+        String representativeImageUrl = trip.getRepresentativeImageUrl();
+        if ((representativeImageUrl == null || representativeImageUrl.trim().isEmpty()) && 
+            !trip.getDiaries().isEmpty()) {
+            // 첫 번째 다이어리의 대표 사진 찾기 (createdAt 기준으로 정렬)
+            representativeImageUrl = trip.getDiaries().stream()
+                    .sorted((d1, d2) -> d1.getCreatedAt().compareTo(d2.getCreatedAt()))
+                    .findFirst()
+                    .flatMap(diary -> diary.getDiaryImages().stream()
+                            .filter(image -> image.isRepresentative())
+                            .findFirst()
+                            .map(image -> image.getImageUrl()))
+                    .orElse(null);
+        }
+        dto.setRepresentativeImageUrl(representativeImageUrl);
         
         // 사용자 정보
         if (trip.getUser() != null) {
