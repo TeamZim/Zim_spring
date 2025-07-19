@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.repository.CountryRepository;
 import zim.tave.memory.util.EmojiValidator;
-import zim.tave.memory.util.CountryValidator;
+
 
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class CountryService {
 
     public void saveCountry(Country country) {
         // 국가 코드 검증
-        if (country.getCountryCode() != null) {
-            CountryValidator.validateCountryCode(country.getCountryCode());
+        if (country.getCountryCode() == null || country.getCountryCode().trim().isEmpty()) {
+            throw new IllegalArgumentException("국가 코드는 필수입니다.");
         }
         
         // 이모지 유효성 검증
