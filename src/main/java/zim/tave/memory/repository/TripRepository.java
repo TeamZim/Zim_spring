@@ -31,7 +31,20 @@ public class TripRepository {
     }
 
     public List<Trip> findByUserId(Long userId) {
-        return em.createQuery("select t from Trip t where t.user.id = :userId and t.isDeleted = false", Trip.class)
+        return em.createQuery("select t from Trip t where t.user.id = :userId", Trip.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    // 다이어리가 하나 이상 있는 모든 여행 조회
+    public List<Trip> findAllWithDiaries() {
+        return em.createQuery("select t from Trip t where size(t.diaries) > 0", Trip.class)
+                .getResultList();
+    }
+
+    // 다이어리가 하나 이상 있는 특정 사용자의 여행 조회
+    public List<Trip> findByUserIdWithDiaries(Long userId) {
+        return em.createQuery("select t from Trip t where t.user.id = :userId and size(t.diaries) > 0", Trip.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
