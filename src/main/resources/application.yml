@@ -1,6 +1,6 @@
 spring:
   config:
-    import: application-secret.yml
+    import: optional:application-secret.yml
 
   datasource:
     url: jdbc:mysql://localhost:3306/memory_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
@@ -8,8 +8,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 500MB
+      max-request-size: 500MB
 
 
   jpa:
@@ -41,3 +41,6 @@ server:
   ssl:
     enabled: false
   use-forward-headers: false
+  tomcat:
+    max-http-post-size: 524288000  # 500MB in bytes
+    max-http-header-size: 102400   # 100KB in bytes

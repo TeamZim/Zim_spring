@@ -20,7 +20,6 @@ import zim.tave.memory.dto.CountrySearchResponseDto;
 import zim.tave.memory.dto.ListResponse;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,42 +79,7 @@ public class CountryController {
         }
     }
 
-    @Operation(summary = "나라 검색 (POST)", description = "JSON body로 한글 나라 이름을 검색합니다. URL 인코딩 문제가 있을 때 사용.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "검색 성공",
-            content = @Content(schema = @Schema(implementation = CountrySearchResponseDto.class))),
-        @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
-    })
-    @PostMapping("/search")
-    public ResponseEntity<ListResponse<CountrySearchResponseDto>> searchCountriesPost(
-        @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            description = "검색 키워드가 포함된 JSON",
-            required = true,
-            content = @Content(schema = @Schema(example = "{\"keyword\": \"한국\"}"))
-        )
-        @RequestBody Map<String, String> request
-    ) {
-        try {
-            String keyword = request.get("keyword");
-            
-            // 검색 키워드 검증
-            if (keyword == null || keyword.trim().isEmpty()) {
-                System.out.println("검색 키워드가 비어있습니다.");
-                return ResponseEntity.ok(new ListResponse<>(List.of()));
-            }
-            
-            List<Country> countries = countryService.searchCountriesByName(keyword);
-            List<CountrySearchResponseDto> result = countries.stream()
-                .map(c -> new CountrySearchResponseDto(c.getCountryCode(), c.getCountryName(), c.getEmoji()))
-                .toList();
-            
-            System.out.println("국가 검색 결과 (POST): " + result.size() + "개 국가 발견");
-            return ResponseEntity.ok(new ListResponse<>(result));
-        } catch (Exception e) {
-            System.out.println("국가 검색 중 오류 발생: " + e.getMessage());
-            return ResponseEntity.ok(new ListResponse<>(List.of()));
-        }
-    }
+
     
 
     @Operation(summary = "방문 국가 저장", description = "국가코드와 감정ID로 방문 국가를 저장합니다.")

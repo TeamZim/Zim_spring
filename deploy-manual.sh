@@ -102,7 +102,7 @@ nohup java -Xmx350m -Xms256m -XX:+UseG1GC \
   -Dspring.datasource.password=${DB_PASSWORD} \
   -Dcloud.aws.credentials.access-key=${AWS_ACCESS_KEY_ID} \
   -Dcloud.aws.credentials.secret-key=${AWS_SECRET_ACCESS_KEY} \
-  -Dcloud.aws.region.static=us-east-1 \
+  -Dcloud.aws.region.static=ap-northeast-2 \
   -Dcloud.aws.s3.bucket=${S3_BUCKET_NAME} \
   -jar memory-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod > ~/logs/app.log 2>&1 &
 
