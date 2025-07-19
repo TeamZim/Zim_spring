@@ -19,9 +19,9 @@ public class CountryService {
 
 
     public List<Country> searchCountriesByName(String keyword) {
-        // 검색 키워드 검증 - 간단한 null/empty 체크만
+        // 검색 키워드가 null이거나 빈 문자열이면 전체 국가 반환
         if (keyword == null || keyword.trim().isEmpty()) {
-            return List.of();
+            return countryRepository.findAll();
         }
         return countryRepository.findByNameContaining(keyword.trim());
     }
@@ -305,7 +305,7 @@ public class CountryService {
         );
         countries.forEach(countryRepository::save);
         countryRepository.flush(); // 강제 DB 반영
-        List<Country> check = countryRepository.findAll();
+        //List<Country> check = countryRepository.findAll();
         //System.out.println(">> 실제 저장된 수: " + check.size());
     }
 }
