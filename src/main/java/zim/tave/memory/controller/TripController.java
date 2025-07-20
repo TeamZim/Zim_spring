@@ -126,18 +126,6 @@ public class TripController {
         return ResponseEntity.ok(tripDtos);
     }
 
-    @DeleteMapping("/{tripId}")
-    @Operation(summary = "여행 삭제", description = "특정 여행을 삭제합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "여행 삭제 성공"),
-            @ApiResponse(responseCode = "404", description = "여행을 찾을 수 없음", content = @Content)
-    })
-    public ResponseEntity<Void> deleteTrip(
-            @Parameter(description = "여행 ID", required = true) @PathVariable Long tripId) {
-        tripService.deleteTrip(tripId);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/{tripId}/representative-images")
     @Operation(summary = "여행에 속한 다이어리들의 대표사진 목록 조회", description = "특정 여행에 속한 모든 다이어리들의 대표사진을 조회합니다.")
     @ApiResponses(value = {

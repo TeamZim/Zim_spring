@@ -28,8 +28,6 @@ public class Trip {
 
     private LocalDate endDate;
 
-    private Boolean isDeleted = false;
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
@@ -42,7 +40,7 @@ public class Trip {
     @Lob
     private String content;
 
-    private String representativeImageUrl; // 여행의 대표 사진 URL
+    private String representativeImageUrl;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -67,6 +65,7 @@ public class Trip {
         trip.setDescription(description);
         trip.setTripTheme(tripTheme);
         trip.setStartDate(LocalDate.now());
+        trip.setEndDate(LocalDate.now());
         return trip;
     }
 

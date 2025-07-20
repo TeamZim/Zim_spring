@@ -44,38 +44,38 @@ public class DataInitializer implements CommandLineRunner {
             
             // 기본 테마 (ID 1)
             TripTheme basicTheme = new TripTheme("기본", 
-                    "https://images.example.com/themes/basic/sample.jpg", 
-                    "https://images.example.com/themes/basic/card.jpg");
+                    "https://me-mory.mooo.com/api/files?key=images/82847c58-80f0-4488-9bad-e448bd551ebb_default(no stroke).png", 
+                    "https://me-mory.mooo.com/api/files?key=images/4014e9a3-a406-4dc5-ba69-e7f9e88174f1_default.png");
             tripThemeRepository.save(basicTheme);
             
             // Grey 테마 (ID 2)
             TripTheme greyTheme = new TripTheme("Grey", 
-                    "https://images.example.com/themes/grey/sample.jpg", 
-                    "https://images.example.com/themes/grey/card.jpg");
+                    "https://me-mory.mooo.com/api/files?key=images/a391584b-a811-4b6f-aab5-94493ab7a5b7_grey(no stroke).png", 
+                    "https://me-mory.mooo.com/api/files?key=images/121b8c80-18dd-4512-8131-8df515e5ef2e_grey.png");
             tripThemeRepository.save(greyTheme);
             
             // 탑승권 테마 (ID 3)
             TripTheme ticketTheme = new TripTheme("탑승권", 
-                    "https://images.example.com/themes/ticket/sample.jpg", 
-                    "https://images.example.com/themes/ticket/card.jpg");
+                    "https://me-mory.mooo.com/api/files?key=images/7c59762c-2c06-40de-bcfd-e3d0bde57677_boarding-pass(no stroke).png", 
+                    "https://me-mory.mooo.com/api/files?key=images/991a85ac-2760-49ba-bcd7-54baa7a3a6e0_boarding_pass.png");
             tripThemeRepository.save(ticketTheme);
             
             // 액자 테마 (ID 4)
             TripTheme frameTheme = new TripTheme("액자", 
-                    "https://images.example.com/themes/frame/sample.jpg", 
-                    "https://images.example.com/themes/frame/card.jpg");
+                    "https://me-mory.mooo.com/api/files?key=images/bdd320a6-da17-4d16-b39d-e57bb6c4cf68_pic-frame(no stroke).png", 
+                    "https://me-mory.mooo.com/api/files?key=images/7ea4818c-8cf9-4220-8062-026b2b47929d_frame.png");
             tripThemeRepository.save(frameTheme);
             
             // Beach 테마 (ID 5)
             TripTheme beachTheme = new TripTheme("Beach", 
-                    "https://images.example.com/themes/beach/sample.jpg", 
-                    "https://images.example.com/themes/beach/card.jpg");
+                    "https://me-mory.mooo.com/api/files?key=images/6c5dacb9-cead-4054-b320-184b1261b120_beach(no stroke).png", 
+                    "https://me-mory.mooo.com/api/files?key=images/81ee583b-0ac8-48b8-b54a-352ba62aaa4a_beach.png");
             tripThemeRepository.save(beachTheme);
             
             // Forest 테마 (ID 6)
             TripTheme forestTheme = new TripTheme("Forest", 
-                    "https://images.example.com/themes/forest/sample.jpg", 
-                    "https://images.example.com/themes/forest/card.jpg");
+                    "https://me-mory.mooo.com/api/files?key=images/02711aa3-88d7-436a-b7a4-defc51ff270b_forest(no stroke).png", 
+                    "https://me-mory.mooo.com/api/files?key=images/17e67f1a-a5c0-417c-8f6c-9511d44f35b1_forest.png");
             tripThemeRepository.save(forestTheme);
             
             log.info("여행 테마 데이터 생성 완료: {}개", tripThemeRepository.count());
@@ -86,7 +86,7 @@ public class DataInitializer implements CommandLineRunner {
         if (emotionRepository.count() == 0) {
             log.info("감정 데이터 생성 중...");
             
-            emotionRepository.save(new Emotion("기본", "#D9D9D9"));
+            emotionRepository.save(new Emotion("기본", "#EEEEEE"));
             emotionRepository.save(new Emotion("설렘", "#FDD7DE"));
             emotionRepository.save(new Emotion("신기함", "#FFCB6B"));
             emotionRepository.save(new Emotion("즐거움", "#FFE13E"));
@@ -111,27 +111,27 @@ public class DataInitializer implements CommandLineRunner {
             
             Weather sunny = new Weather();
             sunny.setName("맑음");
-            sunny.setIconUrl("/images/weather/sunny.png");
+            sunny.setIconUrl("https://me-mory.mooo.com/api/files?key=images/3d2d621f-c1c6-483e-9297-a45750b05348_sunny.jpg");
             weatherRepository.save(sunny);
             
             Weather cloudy = new Weather();
             cloudy.setName("구름");
-            cloudy.setIconUrl("/images/weather/cloudy.png");
+            cloudy.setIconUrl("https://me-mory.mooo.com/api/files?key=images/55d632d7-2c89-430d-b5ed-076025b450c6_cloudy.jpg");
             weatherRepository.save(cloudy);
             
             Weather rainy = new Weather();
             rainy.setName("비");
-            rainy.setIconUrl("/images/weather/rainy.png");
+            rainy.setIconUrl("https://me-mory.mooo.com/api/files?key=images/1e9f8407-54b3-4512-af82-47555b40dc72_rainy.jpg");
             weatherRepository.save(rainy);
             
             Weather windy = new Weather();
             windy.setName("바람");
-            windy.setIconUrl("/images/weather/windy.png");
+            windy.setIconUrl("https://me-mory.mooo.com/api/files?key=images/8021f201-a928-468b-be23-24fa7e07548e_windy.jpg");
             weatherRepository.save(windy);
             
             Weather snowy = new Weather();
             snowy.setName("눈");
-            snowy.setIconUrl("/images/weather/snowy.png");
+            snowy.setIconUrl("https://me-mory.mooo.com/api/files?key=images/34e89299-35f0-4f2c-bbbf-6123e8af45f5_snowy.jpg");
             weatherRepository.save(snowy);
             
             log.info("날씨 데이터 생성 완료: {}개", weatherRepository.count());
@@ -145,9 +145,17 @@ public class DataInitializer implements CommandLineRunner {
             
             User testUser = new User();
             testUser.setKakaoId("test_강지혜");
-            testUser.setSurName("강");
-            testUser.setFirstName("지혜");
+            testUser.setSurName("KANG");
+            testUser.setFirstName("JIHYE");
             testUser.setKoreanName("강지혜");
+            testUser.setBirth(java.time.LocalDate.of(1995, 3, 15));
+            testUser.setNationality("REPUBLIC OF KOREA");
+            testUser.setCreatedAt(java.time.LocalDate.now());
+            testUser.setStatus(true);
+            testUser.setProfileImageUrl("https://me-mory.mooo.com/api/files?key=images/7c24aa61-2d36-48fd-80a5-646ac518256d_IMG_3831.jpg");
+            testUser.setDiaryCount(0L);
+            testUser.setVisitedCountryCount(0L);
+            testUser.setFlags("🇰🇷");
             userRepository.save(testUser);
             
             log.info("테스트 사용자 데이터 생성 완료");
