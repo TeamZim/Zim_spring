@@ -23,7 +23,7 @@ public class CountryRepository {
     }
 
     public List<Country> findAll() {
-        return em.createQuery("SELECT c FROM Country c", Country.class).getResultList();
+        return em.createQuery("SELECT c FROM Country c ORDER BY c.countryName", Country.class).getResultList();
     }
 //나라 검색용
     public List<Country> findByNameContaining(String keyword) {
