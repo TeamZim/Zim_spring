@@ -71,4 +71,11 @@ public class VisitedCountryRepository {
         em.remove(em.contains(visitedCountry) ? visitedCountry : em.merge(visitedCountry));
     }
 
+    // 회원 탈퇴용 정보 삭제
+    public void deleteAllByUserId(Long userId) {
+        em.createQuery("DELETE FROM VisitedCountry v WHERE v.user.id = :userId")
+                .setParameter("userId", userId)
+                .executeUpdate();
+    }
+
 }
