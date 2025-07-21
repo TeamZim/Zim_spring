@@ -17,12 +17,9 @@ public class JoinService {
     @Transactional
     public User join(JoinRequestDto requestDto) {
 
-        if(userRepository.findByKakaoId(requestDto.getKakaoId()).isPresent()) {
-            //이미 가입된 유저 예외처리 코드 필요
-            throw new RuntimeException("(중복)Kakao user already exists");
-        }
+        User user = userRepository.findByKakaoId(requestDto.getKakaoId())
+                .orElseThrow(() -> new RuntimeException("카카오 로그인을 먼저 진행해주세요."));
 
-        User user = new User();
         user.setKakaoId(requestDto.getKakaoId());
         user.setProfileImageUrl(requestDto.getProfileImageUrl());
         user.setSurName(requestDto.getSurName());
