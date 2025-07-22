@@ -6,6 +6,7 @@ TAVE 15기 연합프로젝트 "Me-mory" 백엔드 소개 페이지입니다🙌�
 ### &emsp;   한 편의 일기로 당신만의 이야기를 담을 수 있도록, 다양한 테마와 감정색으로 완성하는 나만의 일기 아카이브 "
 
 
+<img width="1920" height="1080" alt="#0" src="https://github.com/user-attachments/assets/3d3c3925-9113-4bea-8cfc-0521539350f5" />
 <img width="118" height="206" alt="Screenshot" src="https://github.com/user-attachments/assets/47916349-6174-4351-a387-d9cd44b072b7" />
 <img width="118" height="206" alt="Screenshot-1" src="https://github.com/user-attachments/assets/cc4287ac-ee73-41ba-abd4-af7ce18d4a74" />
 
