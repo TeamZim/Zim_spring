@@ -52,10 +52,6 @@ public class TripController {
             return ResponseEntity.badRequest().build();
         }
         
-        if (request.getThemeId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        
         Trip trip = tripService.createTrip(request);
         return ResponseEntity.ok(TripResponseDto.from(trip));
     }
@@ -76,6 +72,12 @@ public class TripController {
         }
         
         if (request.getDescription() != null && request.getDescription().trim().length() > 56) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        // 날짜 순서 검증: startDate가 endDate보다 늦으면 안됨
+        if (request.getStartDate() != null && request.getEndDate() != null && 
+            request.getStartDate().isAfter(request.getEndDate())) {
             return ResponseEntity.badRequest().build();
         }
         
@@ -124,20 +126,8 @@ public class TripController {
         return ResponseEntity.ok(tripDtos);
     }
 
-    @DeleteMapping("/{tripId}")
-    @Operation(summary = "여행 삭제", description = "특정 여행을 삭제합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "여행 삭제 성공"),
-            @ApiResponse(responseCode = "404", description = "여행을 찾을 수 없음", content = @Content)
-    })
-    public ResponseEntity<Void> deleteTrip(
-            @Parameter(description = "여행 ID", required = true) @PathVariable Long tripId) {
-        tripService.deleteTrip(tripId);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/{tripId}/representative-images")
-    @Operation(summary = "여행별 대표사진 조회", description = "특정 여행의 모든 대표사진을 조회합니다.")
+    @Operation(summary = "여행에 속한 다이어리들의 대표사진 목록 조회", description = "특정 여행에 속한 모든 다이어리들의 대표사진을 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "대표사진 조회 성공",
                     content = @Content(schema = @Schema(implementation = TripRepresentativeImageDto.class))),

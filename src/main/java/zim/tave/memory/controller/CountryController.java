@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.dto.CountrySearchResponseDto;
+import zim.tave.memory.dto.ListResponse;
 
 import java.util.List;
 
@@ -36,14 +37,14 @@ public class CountryController {
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @GetMapping("/{userId}")
-    public ResponseEntity<List<VisitedCountryResponseDto>> getVisitedCountries(
+    public ResponseEntity<ListResponse<VisitedCountryResponseDto>> getVisitedCountries(
         @Parameter(description = "조회할 사용자 ID", example = "1")
         @PathVariable Long userId) {
         List<VisitedCountryResponseDto> visitedCountries = visitedCountryService.getVisitedCountries(userId)
                 .stream()
                 .map(VisitedCountryResponseDto::from)
                 .toList();
-        return ResponseEntity.ok(visitedCountries);
+        return ResponseEntity.ok(new ListResponse<>(visitedCountries));
     }
 
 
@@ -54,16 +55,25 @@ public class CountryController {
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
     @GetMapping("/search")
-    public ResponseEntity<List<CountrySearchResponseDto>> searchCountries(
+    public ResponseEntity<ListResponse<CountrySearchResponseDto>> searchCountries(
         @Parameter(description = "검색할 나라 이름(한글)", example = "한국")
         @RequestParam String keyword
     ) {
-        List<Country> countries = countryService.searchCountriesByName(keyword);
-        List<CountrySearchResponseDto> result = countries.stream()
-            .map(c -> new CountrySearchResponseDto(c.getCountryCode(), c.getCountryName(), c.getEmoji()))
-            .toList();
-        return ResponseEntity.ok(result);
+        try {
+            // Controller에서 빈 키워드일 때 빈 리스트 반환하지 않고, service에서 전체 국가 반환하도록 위임
+            List<Country> countries = countryService.searchCountriesByName(keyword);
+            List<CountrySearchResponseDto> result = countries.stream()
+                .map(c -> new CountrySearchResponseDto(c.getCountryCode(), c.getCountryName(), c.getEmoji()))
+                .toList();
+            System.out.println("국가 검색 결과: " + result.size() + "개 국가 발견");
+            return ResponseEntity.ok(new ListResponse<>(result));
+        } catch (Exception e) {
+            System.out.println("국가 검색 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.ok(new ListResponse<>(List.of()));
+        }
     }
+
+
     
 
     @Operation(summary = "방문 국가 저장", description = "국가코드와 감정ID로 방문 국가를 저장합니다.")
@@ -82,8 +92,25 @@ public class CountryController {
         )
         @RequestBody RegisterVisitedCountryRequestDto requestDto
     ) {
-        visitedCountryService.registerVisitedCountry(userId, requestDto.getCountryCode(), requestDto.getEmotionId());
-        return ResponseEntity.ok().build();
+        try {
+            visitedCountryService.registerVisitedCountry(userId, requestDto.getCountryCode(), requestDto.getEmotionId());
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            System.out.println("방문 국가 등록 실패: " + e.getMessage());
+            if (e.getMessage().contains("해당 국가가 존재하지 않습니다")) {
+                return ResponseEntity.badRequest().build();
+            } else if (e.getMessage().contains("해당 사용자가 존재하지 않습니다")) {
+                return ResponseEntity.badRequest().build();
+            } else if (e.getMessage().contains("감정을 찾을 수 없습니다")) {
+                return ResponseEntity.badRequest().build();
+            } else if (e.getMessage().contains("국가를 선택해야 합니다")) {
+                return ResponseEntity.badRequest().build();
+            }
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            System.out.println("방문 국가 등록 중 예상치 못한 오류: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @Operation(summary = "특정 방문 국가 삭제", description = "userId와 countryCode로 방문 국가를 삭제합니다.")

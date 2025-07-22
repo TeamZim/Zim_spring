@@ -28,10 +28,15 @@ public class TripService {
 
     @Transactional
     public Trip createTrip(CreateTripRequest request) {
-        TripTheme theme = tripThemeRepository.findById(request.getThemeId())
+        // 테마 처리: 테마가 선택되지 않으면 기본 테마(id=1)를 사용
+        Long themeId = request.getThemeId();
+        if (themeId == null) {
+            themeId = 1L; // 기본 테마 ID
+        }
+        
+        TripTheme theme = tripThemeRepository.findById(themeId)
                 .orElseThrow(() -> new IllegalArgumentException("테마를 찾을 수 없습니다."));
         
-        // User는 실제로는 인증된 사용자에서 가져와야 함
         User user = new User();
         user.setId(request.getUserId());
         
@@ -62,10 +67,22 @@ public class TripService {
                     .orElseThrow(() -> new IllegalArgumentException("테마를 찾을 수 없습니다."));
             findTrip.setTripTheme(theme);
         }
+        
+        if (request.getRepresentativeImageUrl() != null) {
+            findTrip.setRepresentativeImageUrl(request.getRepresentativeImageUrl());
+        }
+        
+        if (request.getStartDate() != null) {
+            findTrip.setStartDate(request.getStartDate());
+        }
+        
+        if (request.getEndDate() != null) {
+            findTrip.setEndDate(request.getEndDate());
+        }
     }
 
     public List<Trip> findAll() {
-        return tripRepository.findAll();
+        return tripRepository.findAllWithDiaries();
     }
 
     public Trip findOne(Long tripId) {
@@ -73,13 +90,7 @@ public class TripService {
     }
 
     public List<Trip> findByUserId(Long userId) {
-        return tripRepository.findByUserId(userId);
-    }
-
-    @Transactional
-    public void deleteTrip(Long tripId) {
-        Trip trip = tripRepository.findOne(tripId);
-        trip.setIsDeleted(true);
+        return tripRepository.findByUserIdWithDiaries(userId);
     }
 
     // 여행의 마지막 다이어리 날짜를 기준으로 종료 날짜 업데이트

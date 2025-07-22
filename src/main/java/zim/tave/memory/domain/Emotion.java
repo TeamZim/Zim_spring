@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Emotion {
 
     @Id @GeneratedValue
-    @Column(name = "emotionId")
+    @Column(name = "emotion_id")
     private Long id;
 
     private String name;

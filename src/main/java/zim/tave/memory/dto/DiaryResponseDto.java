@@ -15,6 +15,7 @@ public class DiaryResponseDto {
     
     private Long id;
     private String countryName;
+    private String countryEmoji;
     private String city;
     private String detailedLocation;
     private LocalDateTime dateTime;
@@ -22,7 +23,9 @@ public class DiaryResponseDto {
     private String content;
     private String audioUrl;
     private String emotionColor;
+    private String emotionName;
     private String weather;
+    private String weatherIconUrl;
     
     // 간단한 여행 정보
     private Long tripId;
@@ -64,16 +67,19 @@ public class DiaryResponseDto {
         // 국가 정보
         if (diary.getCountry() != null) {
             dto.setCountryName(diary.getCountry().getCountryName());
+            dto.setCountryEmoji(diary.getCountry().getEmoji());
         }
         
         // 감정 정보
         if (diary.getEmotion() != null) {
             dto.setEmotionColor(diary.getEmotion().getColorCode());
+            dto.setEmotionName(diary.getEmotion().getName());
         }
         
         // 날씨 정보
         if (diary.getWeather() != null) {
             dto.setWeather(diary.getWeather().getName());
+            dto.setWeatherIconUrl(diary.getWeather().getIconUrl());
         }
         
         // 여행 정보

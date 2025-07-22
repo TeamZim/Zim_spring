@@ -1,6 +1,7 @@
 package zim.tave.memory.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import zim.tave.memory.domain.Diary;
@@ -52,4 +53,21 @@ public class DiaryRepository {
     public void delete(Diary diary) {
         em.remove(diary);
     }
+
+    // 회원 탈퇴용 정보 삭제
+    @Transactional
+    public void deleteAllByUserId(Long userId) {
+        List<Diary> diaries = findByUserId(userId);
+
+        for (Diary diary : diaries) {
+            // DiaryImage 먼저 삭제
+            em.createQuery("DELETE FROM DiaryImage d WHERE d.diary.id = :diaryId")
+                    .setParameter("diaryId", diary.getId())
+                    .executeUpdate();
+
+            // Diary 삭제
+            delete(diary);  // 기존에 정의한 delete(Diary diary) 활용
+        }
+    }
+
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 public class Weather {
 
     @Id @GeneratedValue
-    @Column(name = "weatherId")
+    @Column(name = "weather_id")
     private Long id;
 
     private String name;

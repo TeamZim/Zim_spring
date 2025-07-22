@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +24,9 @@ public class Trip {
     @Column(length = 56)
     private String description;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(updatable = false)
     private LocalDate startDate;
 
     private LocalDate endDate;
-
-    private Boolean isDeleted = false;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,7 +40,7 @@ public class Trip {
     @Lob
     private String content;
 
-    private String representativeImageUrl; // 여행의 대표 사진 URL
+    private String representativeImageUrl;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -72,6 +65,7 @@ public class Trip {
         trip.setDescription(description);
         trip.setTripTheme(tripTheme);
         trip.setStartDate(LocalDate.now());
+        trip.setEndDate(LocalDate.now());
         return trip;
     }
 
