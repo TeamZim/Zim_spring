@@ -1,4 +1,4 @@
-# Zim_spring Backend
+# [Me-mory] Backend
 TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 
 ## 📝 About Me-mory
