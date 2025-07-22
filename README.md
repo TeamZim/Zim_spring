@@ -43,7 +43,6 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 
 
 
-## Tech Stack
 ## 🛠️ Tech Stack
 
 | Category       | Stack                                                     |
@@ -66,7 +65,6 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 ![DCEF280F-AD70-4C20-A027-DD106DE94855_1_201_a](https://github.com/user-attachments/assets/c0c48458-7093-4fc9-87fa-7062ffeb4f74)
 
 
-## API
 ## API
 - **로그인/회원가입**
   - `POST /api/login/kakao` : 카카오 로그인
