@@ -45,19 +45,19 @@ public class DataInitializer implements CommandLineRunner {
             // 기본 테마 (ID 1)
             TripTheme basicTheme = new TripTheme("기본", 
                     "https://me-mory.mooo.com/api/files?key=images/82847c58-80f0-4488-9bad-e448bd551ebb_default(no stroke).png", 
-                    "https://me-mory.mooo.com/api/files?key=images/4014e9a3-a406-4dc5-ba69-e7f9e88174f1_default.png");
+                    "https://me-mory.mooo.com/api/files?key=images/95823625-3d74-4aa0-9661-9416c0e4a562_travel card_ripped_default.png");
             tripThemeRepository.save(basicTheme);
             
             // Grey 테마 (ID 2)
             TripTheme greyTheme = new TripTheme("Grey", 
                     "https://me-mory.mooo.com/api/files?key=images/a391584b-a811-4b6f-aab5-94493ab7a5b7_grey(no stroke).png", 
-                    "https://me-mory.mooo.com/api/files?key=images/121b8c80-18dd-4512-8131-8df515e5ef2e_grey.png");
+                    "https://me-mory.mooo.com/api/files?key=images/12775508-48e7-447f-a711-08286e03e733_travel card_ripped_grey.png");
             tripThemeRepository.save(greyTheme);
             
             // 탑승권 테마 (ID 3)
             TripTheme ticketTheme = new TripTheme("탑승권", 
                     "https://me-mory.mooo.com/api/files?key=images/7c59762c-2c06-40de-bcfd-e3d0bde57677_boarding-pass(no stroke).png", 
-                    "https://me-mory.mooo.com/api/files?key=images/991a85ac-2760-49ba-bcd7-54baa7a3a6e0_boarding_pass.png");
+                    "https://me-mory.mooo.com/api/files?key=images/a83818f1-ecf4-4426-95f3-f512aca55195_travel card_boardingpass.png");
             tripThemeRepository.save(ticketTheme);
             
             // 액자 테마 (ID 4)
@@ -69,13 +69,13 @@ public class DataInitializer implements CommandLineRunner {
             // Beach 테마 (ID 5)
             TripTheme beachTheme = new TripTheme("Beach", 
                     "https://me-mory.mooo.com/api/files?key=images/6c5dacb9-cead-4054-b320-184b1261b120_beach(no stroke).png", 
-                    "https://me-mory.mooo.com/api/files?key=images/81ee583b-0ac8-48b8-b54a-352ba62aaa4a_beach.png");
+                    "https://me-mory.mooo.com/api/files?key=images/a96ece3e-bf03-4038-85ec-ddc58c643966_travel card_pic-frame.png");
             tripThemeRepository.save(beachTheme);
             
             // Forest 테마 (ID 6)
             TripTheme forestTheme = new TripTheme("Forest", 
                     "https://me-mory.mooo.com/api/files?key=images/02711aa3-88d7-436a-b7a4-defc51ff270b_forest(no stroke).png", 
-                    "https://me-mory.mooo.com/api/files?key=images/17e67f1a-a5c0-417c-8f6c-9511d44f35b1_forest.png");
+                    "https://me-mory.mooo.com/api/files?key=images/6ee3070c-d1fb-4143-83d7-e2142bb9197b_travel card_forest.png");
             tripThemeRepository.save(forestTheme);
             
             log.info("여행 테마 데이터 생성 완료: {}개", tripThemeRepository.count());
