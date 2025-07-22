@@ -67,4 +67,28 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 
 
 ## API
+## API
+- **로그인/회원가입**
+  - `POST /api/login/kakao` : 카카오 로그인
+  - `POST /api/join` : 회원 정보 입력
+- **여행**
+  - `POST /api/trips` : 여행 생성
+  - `GET /api/trips` : 전체 여행 목록
+  - `GET /api/trips/{tripId}` : 여행 상세
+  - `GET /api/trips/user/{userId}` : 사용자별 여행 목록
+- **일기**
+  - `POST /api/diaries` : 일기 생성
+  - `GET /api/diaries` : 전체 일기 목록
+  - `GET /api/diaries/{diaryId}` : 일기 상세
+  - `GET /api/diaries/user/{userId}` : 사용자별 일기 목록
+- **방문 국가/감정/날씨/테마**
+  - `GET /api/countries/{userId}` : 방문 국가 목록
+  - `GET /api/countries/search?keyword=한국` : 국가 검색
+  - `GET /api/emotions` : 감정 목록
+  - `GET /api/weathers` : 날씨 목록
+  - `GET /api/themes` : 여행 테마 목록
+- **파일 업로드/다운로드**
+  - `POST /upload` : 파일 업로드
+  - `GET /api/files?key=...` : 파일 다운로드
 
+ -Swagger UI: [🔗 바로가기](https://me-mory.mooo.com/swagger-ui/index.html#/)
