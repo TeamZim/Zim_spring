@@ -30,7 +30,7 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
   </tbody>
 </table>
 
-## Dependency
+## 📄 Dependency
 
 | Dependency Tool | Version |
 |------------------|---------|
