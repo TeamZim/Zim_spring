@@ -1,5 +1,7 @@
 # Zim_spring Backend
-연합프로젝트 백엔트 팀원 소개 페이지입니다🙌🏻
+TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
+
+## About "Me-mory"
 
 ## Members
 이연서 박지민 최형원
