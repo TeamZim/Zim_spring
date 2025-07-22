@@ -6,7 +6,9 @@ TAVE 15기 연합프로젝트 "Me-mory" 백엔드 소개 페이지입니다🙌�
 ### &emsp;   한 편의 일기로 당신만의 이야기를 담을 수 있도록, 다양한 테마와 감정색으로 완성하는 나만의 일기 아카이브 "
 
 
-[사진]
+<img width="118" height="206" alt="Screenshot" src="https://github.com/user-attachments/assets/47916349-6174-4351-a387-d9cd44b072b7" />
+<img width="118" height="206" alt="Screenshot-1" src="https://github.com/user-attachments/assets/cc4287ac-ee73-41ba-abd4-af7ce18d4a74" />
+
 
 여행의 순간을 사진, 감정, 위치, 오디오 등 다양한 정보와 함께 기록하고,
 나만의 여행 타임라인과 회고를 만들어주는 감성 여행 기록 서비스입니다.
