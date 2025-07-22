@@ -59,6 +59,7 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 ---
 
 ## Architecture
+<img width="1175" height="945" alt="Me-mory_diagram drawio" src="https://github.com/user-attachments/assets/4295f821-ba83-4e27-8cd3-855ea03d1f7a" />
 
 
 ## ERD
