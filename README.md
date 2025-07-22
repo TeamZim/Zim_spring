@@ -32,25 +32,15 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 
 ## Dependency
 
-🔧 Back-End
-기술	설명
-Spring Boot 3.5.0	Java 기반 웹 애플리케이션 프레임워크
-Spring Data JPA	ORM 기반 DB 접근 (Hibernate 사용)
-Spring Web	RESTful API 구현
-MySQL	관계형 데이터베이스
-Lombok	반복되는 코드 최소화 (어노테이션 기반)
-Junit 5	테스트 프레임워크
-Spring Boot Devtools	개발 편의성 향상용 자동 리로딩 도구
-☁️ AWS
-기술	설명
-AWS SDK for Java v2 (S3)	서버에서 직접 S3로 이미지 업로드 처리
-📄 문서화
-기술	설명
-springdoc-openapi 2.1.0	Swagger UI를 통한 API 문서 자동화 (OpenAPI 3 기반)
-🧪 테스트
-기술	설명
-Spring Boot Starter Test	통합 테스트 도구 제공
-JUnit Platform Launcher	JUnit 플랫폼 실행용 런타임
+| Dependency Tool | Version |
+|------------------|---------|
+| Gradle           | 8.7     |
+| Java             | 21      |
+| Spring Boot      | 3.5.0   |
+| MySQL            | 8.0.x   |
+| Swagger (springdoc-openapi) | 2.1.0   |
+| AWS SDK (S3)     | 2.20.89 |
+
 
 
 ## Tech Stack
