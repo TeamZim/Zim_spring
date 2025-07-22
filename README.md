@@ -73,6 +73,7 @@ JUnit Platform Launcher	JUnit 플랫폼 실행용 런타임
 
 
 ## ERD
+![DCEF280F-AD70-4C20-A027-DD106DE94855_1_201_a](https://github.com/user-attachments/assets/c0c48458-7093-4fc9-87fa-7062ffeb4f74)
 
 
 ## API
