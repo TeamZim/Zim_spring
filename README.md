@@ -35,6 +35,20 @@ TAVE 15기 연합프로젝트 "Me-mory" 소개 페이지입니다🙌🏻
 
 
 ## Tech Stack
+## 🛠️ Tech Stack
+
+| Category       | Stack                                                     |
+|----------------|-----------------------------------------------------------|
+| Framework      | Spring Boot                                               |
+| ORM            | Spring Data JPA                                           |
+| Authorization  | Kakao OAuth2.0 Login                                      |
+| Database       | AWS RDS (MySQL 8.0)                                       |
+| File Storage   | AWS S3                                                    |
+| CI/CD          | GitHub Actions + Docker Hub                               |
+| Deployment     | AWS EC2 (Docker Container)                                |
+| API Doc        | Swagger UI                                                |
+
+---
 
 ## Architecture
 
