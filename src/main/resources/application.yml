@@ -43,4 +43,5 @@ server:
   use-forward-headers: false
   tomcat:
     max-http-post-size: 524288000  # 500MB in bytes
-    max-http-header-size: 102400   # 100KB in bytes
+    max-http-header-size: 102400   # 100KB in byt
+  #max-http-request-size: 500MB     # 기존 server.tomcat.max-http-post-size 대체
