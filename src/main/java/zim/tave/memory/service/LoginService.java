@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import zim.tave.memory.domain.User;
 import zim.tave.memory.dto.LoginRequestDto;
 import zim.tave.memory.dto.LoginResponseDto;
+import zim.tave.memory.jwt.JwtUtil;
 import zim.tave.memory.kakao.KakaoApiClient;
 import zim.tave.memory.kakao.KakaoUserInfo;
 import zim.tave.memory.repository.UserRepository;
@@ -17,6 +18,7 @@ public class LoginService {
 
     private final UserRepository userRepository;
     private final KakaoApiClient kakaoApiClient;
+    private final JwtUtil jwtUtil;
 
     public LoginResponseDto login(LoginRequestDto request) {
         KakaoUserInfo kakaoUserInfo = kakaoApiClient.getKakaoUserInfo(request.getAccessToken());
@@ -24,11 +26,13 @@ public class LoginService {
 
         if (user != null) {
             // 기존 회원
+            String token = jwtUtil.generateToken(user.getId(), user.getKakaoId());
             return new LoginResponseDto(
                     user.getId(),
                     true,
                     user.getKakaoId(),
-                    user.getProfileImageUrl()
+                    user.getProfileImageUrl(),
+                    token
             );
         }
 
@@ -51,11 +55,16 @@ public class LoginService {
 
         User savedUser = userRepository.save(newUser);
 
+        //JWT AT 발급
+        String token = jwtUtil.generateToken(savedUser.getId(), savedUser.getKakaoId());
+
         return new LoginResponseDto(
                 savedUser.getId(),
                 false,
                 savedUser.getKakaoId(),
-                savedUser.getProfileImageUrl()
+                savedUser.getProfileImageUrl(),
+                token
+
         );
     }
 }
