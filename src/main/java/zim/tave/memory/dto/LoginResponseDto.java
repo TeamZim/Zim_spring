@@ -22,4 +22,7 @@ public class LoginResponseDto {
 
     @Schema(description = "프로필 이미지 URL", example = "http://img1.kakaocdn.net/profile.jpeg")
     private String profileImageUrl;
+
+    @Schema(description = "로그인 시 AT 발급", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6...")
+    private String jwtAccessToken;
 }

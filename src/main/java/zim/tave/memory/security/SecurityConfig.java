@@ -23,8 +23,19 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // 로그인, 회원가입은 예외
-                        .requestMatchers("/upload").permitAll()
+                        .requestMatchers(
+                                "/auth/**",
+                                "/upload",
+                                "/api/login/**",
+                                "/api/logout",
+                                "/api/auth/refresh",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**",
+                                "/api/test/**"
+                        ).permitAll() // 로그인, 회원가입은 예외
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

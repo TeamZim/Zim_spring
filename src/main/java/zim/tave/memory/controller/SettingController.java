@@ -7,7 +7,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import zim.tave.memory.security.CustomUserDetails;
 import zim.tave.memory.service.SettingService;
 
 @RestController
@@ -23,8 +25,9 @@ public class SettingController {
             @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류, 존재하지 않는 사용자 등", content = @Content())
     })
-    @PatchMapping("/{userId}/logout")
-    public ResponseEntity logout(@PathVariable Long userId) {
+    @PatchMapping("/logout")
+    public ResponseEntity<String> logout(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUserId();
         settingService.logout(userId);
         return ResponseEntity.ok("로그아웃 완료");
     }
