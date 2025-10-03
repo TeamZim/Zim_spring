@@ -2,6 +2,7 @@ package zim.tave.memory.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import zim.tave.memory.service.VisitedCountryService;
 import zim.tave.memory.service.CountryService;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import zim.tave.memory.domain.Country;
 import zim.tave.memory.dto.CountrySearchResponseDto;
 import zim.tave.memory.dto.ListResponse;
+import zim.tave.memory.security.CustomUserDetails;
 
 import java.util.List;
 
@@ -30,16 +32,17 @@ public class CountryController {
     private final VisitedCountryService visitedCountryService;
     private final CountryService countryService;
 
-    @Operation(summary = "특정 사용자의 방문 국가 전체 조회", description = "userId로 방문 국가와 감정 정보를 조회합니다.")
+    @Operation(summary = "사용자의 방문 국가 전체 조회", description = "JWT 토큰으로 인증된 사용자의 방문 국가와 감정 정보를 조회합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "조회 성공",
             content = @Content(schema = @Schema(implementation = VisitedCountryResponseDto.class))),
+        @ApiResponse(responseCode = "401", description = "인증 실패", content = @Content()),
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
-    @GetMapping("/{userId}")
+    @GetMapping("/my-countries")
     public ResponseEntity<ListResponse<VisitedCountryResponseDto>> getVisitedCountries(
-        @Parameter(description = "조회할 사용자 ID", example = "1")
-        @PathVariable Long userId) {
+        @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUserId();
         List<VisitedCountryResponseDto> visitedCountries = visitedCountryService.getVisitedCountries(userId)
                 .stream()
                 .map(VisitedCountryResponseDto::from)
@@ -48,6 +51,7 @@ public class CountryController {
     }
 
 
+    // 공통 마스터 데이터 조회이므로 JWT 인증 불필요 - 모든 사용자가 동일한 국가 목록 검색
     @Operation(summary = "나라 검색", description = "한글로 나라 이름을 검색합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "검색 성공",
@@ -58,6 +62,7 @@ public class CountryController {
     public ResponseEntity<ListResponse<CountrySearchResponseDto>> searchCountries(
         @Parameter(description = "검색할 나라 이름(한글)", example = "한국")
         @RequestParam String keyword
+        
     ) {
         try {
             // Controller에서 빈 키워드일 때 빈 리스트 반환하지 않고, service에서 전체 국가 반환하도록 위임
@@ -76,15 +81,16 @@ public class CountryController {
 
     
 
-    @Operation(summary = "방문 국가 저장", description = "국가코드와 감정ID로 방문 국가를 저장합니다.")
+    @Operation(summary = "방문 국가 저장", description = "JWT 토큰으로 인증된 사용자의 방문 국가를 저장합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "저장 성공", content = @Content()),
+        @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content()),
+        @ApiResponse(responseCode = "401", description = "인증 실패", content = @Content()),
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
-    @PostMapping("/{userId}")
+    @PostMapping("/register")
     public ResponseEntity<Void> registerVisitedCountry(
-        @Parameter(description = "사용자 ID", example = "1")
-        @PathVariable Long userId,
+        @AuthenticationPrincipal CustomUserDetails userDetails,
         @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "방문 국가 등록 요청 DTO (countryCode, emotionId)",
             required = true,
@@ -93,6 +99,7 @@ public class CountryController {
         @RequestBody RegisterVisitedCountryRequestDto requestDto
     ) {
         try {
+            Long userId = userDetails.getUserId();
             visitedCountryService.registerVisitedCountry(userId, requestDto.getCountryCode(), requestDto.getEmotionId());
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
@@ -113,31 +120,32 @@ public class CountryController {
         }
     }
 
-    @Operation(summary = "특정 방문 국가 삭제", description = "userId와 countryCode로 방문 국가를 삭제합니다.")
+    @Operation(summary = "방문 국가 삭제", description = "JWT 토큰으로 인증된 사용자의 방문 국가를 삭제합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "삭제 성공", content = @Content()),
+        @ApiResponse(responseCode = "401", description = "인증 실패", content = @Content()),
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteVisitedCountry(
-        @Parameter(description = "사용자 ID", example = "1")
-        @PathVariable Long userId,
+        @AuthenticationPrincipal CustomUserDetails userDetails,
         @Parameter(description = "삭제할 국가 코드", example = "KR")
         @RequestParam String countryCode
     ) {
+        Long userId = userDetails.getUserId();
         visitedCountryService.deleteVisitedCountry(userId, countryCode);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "특정 국가 감정 색상 수정", description = "userId와 countryCode로 방문 국가의 감정 색상을 수정합니다.")
+    @Operation(summary = "방문 국가 감정 색상 수정", description = "JWT 토큰으로 인증된 사용자의 방문 국가 감정 색상을 수정합니다.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "수정 성공", content = @Content()),
+        @ApiResponse(responseCode = "401", description = "인증 실패", content = @Content()),
         @ApiResponse(responseCode = "500", description = "서버 오류", content = @Content())
     })
-    @PatchMapping("/{userId}/color")
+    @PatchMapping("/color")
     public ResponseEntity<Void> updateVisitedCountryColor(
-        @Parameter(description = "사용자 ID", example = "1")
-        @PathVariable Long userId,
+        @AuthenticationPrincipal CustomUserDetails userDetails,
         @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "방문 국가 색상 수정 요청 DTO (countryCode, newColor)",
             required = true,
@@ -145,6 +153,7 @@ public class CountryController {
         )
         @RequestBody UpdateVisitedCountryColorRequestDto requestDto
     ) {
+        Long userId = userDetails.getUserId();
         visitedCountryService.updateVisitedCountryColor(userId, requestDto.getCountryCode(), requestDto.getNewColor());
         return ResponseEntity.ok().build();
     }
