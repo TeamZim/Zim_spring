@@ -37,8 +37,9 @@ public class SettingController {
             @ApiResponse(responseCode = "200", description = "회원탈퇴 성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류, 존재하지 않는 사용자 등", content = @Content())
     })
-    @DeleteMapping("/{userId}")
-    public ResponseEntity delete(@PathVariable Long userId) {
+    @DeleteMapping()
+    public ResponseEntity<String> delete(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUserId();
         settingService.deleteAccount(userId);
         return ResponseEntity.ok("회원탈퇴 완료");
     }
