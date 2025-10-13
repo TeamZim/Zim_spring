@@ -1,0 +1,6 @@
+# <type>(<scope>): <subject>
+# type: feat, fix, refactor, style, docs, test, chore, build, ci, perf
+# subject: 한 줄 요약 (현재형, 마침표 없이)
+#
+# 예시:
+# feat(user): add Kakao login API
